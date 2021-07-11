@@ -1,0 +1,38 @@
+import { DeleteIcon, EditIcon } from '../../icons';
+
+type IProps = {
+  title: string;
+  owner: string;
+};
+export const EvaluateItem: React.FC<IProps> = ({ title, owner }) => {
+  return (
+    <>
+      <div className="grid grid-cols-5 bg-gray-300 px-4 py-2 my-4 rounded-md">
+        <div className="flex items-center flex-1 col-span-3">
+          <span>{title}</span>
+        </div>
+
+        <div className="flex items-center justify-end col-span-2 space-y-2">
+          <div className="flex flex-col items-center justify-end">
+            <span>Nhận xét bởi:</span>
+            <span className="font-medium"> {owner}</span>
+          </div>
+
+          <div className="flex items-center  flex-row-reverse">
+            <div>
+              <button>
+                <DeleteIcon />
+              </button>
+            </div>
+
+            <div className="mx-4">
+              <button>
+                <EditIcon />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};

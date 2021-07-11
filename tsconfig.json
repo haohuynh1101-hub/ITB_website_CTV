@@ -1,0 +1,83 @@
+// {
+//   "compilerOptions": {
+//     "target": "es5",
+//     "lib": [
+//       "dom",
+//       "dom.iterable",
+//       "esnext"
+//     ],
+//     "allowJs": true,
+//     "skipLibCheck": true,
+//     "strict": false,
+//     "forceConsistentCasingInFileNames": true,
+//     "noEmit": true,
+//     "esModuleInterop": true,
+//     "module": "esnext",
+//     "moduleResolution": "node",
+//     "resolveJsonModule": true,
+//     "isolatedModules": true,
+//     "jsx": "preserve"
+//   },
+//   "include": [
+//     "next-env.d.ts",
+//     "**/*.ts",
+//     "**/*.tsx"
+//   ],
+//   "exclude": [
+//     "node_modules"
+//   ]
+// }
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "lib": ["es2016", "dom"],
+    "plugins": [
+      {
+        "name": "typescript-styled-plugin",
+        "validate": false
+      }
+    ],
+    "allowJs": true,
+    "jsx": "preserve",
+
+    "noEmit": true,
+
+    "strict": true,
+    "noImplicitAny": false,
+
+    "moduleResolution": "node",
+    "baseUrl": "./",
+    "paths": {
+      "@components": ["./components"],
+      "@components/*": ["./components/*"],
+      "@utils/*": ["./utils/*"],
+      "@utils": ["./utils"],
+      "@pages": ["./pages"],
+      "@pages/*": ["./pages/*"],
+      "@interfaces/*": ["./interfaces/*"],
+      "@interfaces": ["./interfaces"],
+      "@constants": ["./constants"],
+      "@i18n": ["./i18n"],
+      "@types": ["./types"],
+      "@types/*": ["./types/*"],
+      "@styles": ["./styles"],
+      "@styles/*": ["./styles/*"],
+      "@containers/*": ["./containers/*"],
+      "@containers": ["./containers"],
+      "@redux": ["./redux"],
+      "@redux/*": ["./redux/*"],
+      "@hooks": ["./hooks"],
+      "@hooks/*": ["./hooks/*"],
+      "@theme": ["./theme"]
+    },
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true
+  },
+  "exclude": ["node_modules"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "index.js"]
+}
