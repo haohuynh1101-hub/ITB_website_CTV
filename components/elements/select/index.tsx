@@ -1,9 +1,9 @@
 import { Listbox, Transition } from '@headlessui/react';
 import classnames from 'classnames';
 import { Fragment, useMemo } from 'react';
+
 import { ChevronDownIcon } from '../../icons';
 import { Avatar } from '../avatar';
-
 import { EmptyIcon } from './EmptyIcon';
 
 export type ISelectOption = {

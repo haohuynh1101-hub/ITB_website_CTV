@@ -1,40 +1,40 @@
-import classnames from "classnames";
-import { nanoid } from "nanoid";
-import React, {  useEffect, useRef } from "react";
-import { useState } from "react";
+import classnames from 'classnames';
+import { nanoid } from 'nanoid';
+import React, { useEffect, useRef } from 'react';
+import { useState } from 'react';
 
-import { Prefix } from "./Prefix";
+import { Prefix } from './Prefix';
 
 const SIZE_MAPS = {
   small: {
-    wrapper: "input-wrapper-sm",
-    input: "input-sm",
+    wrapper: 'input-wrapper-sm',
+    input: 'input-sm',
   },
-  middle: "",
+  middle: '',
   large: {
-    wrapper: "input-wrapper-lg",
-    input: "input-lg",
+    wrapper: 'input-wrapper-lg',
+    input: 'input-lg',
   },
 };
 
 const TYPE_MAPS = {
   primary: {
-    wrapper: "input-wrapper-primary",
-    input: "input-primary",
+    wrapper: 'input-wrapper-primary',
+    input: 'input-primary',
   },
   default: {
-    wrapper: "input-wrapper-default",
-    input: "input-default",
+    wrapper: 'input-wrapper-default',
+    input: 'input-default',
   },
 };
 
 const key = {
-  wrapper: "wrapper",
-  input: "input",
+  wrapper: 'wrapper',
+  input: 'input',
 };
 
 const BORDERED_MAPS = {
-  true: "border-2",
+  true: 'border-2',
 };
 
 export type IProps = {
@@ -43,7 +43,7 @@ export type IProps = {
   prefix?: React.ReactNode;
   size?: keyof typeof SIZE_MAPS;
   type?: keyof typeof TYPE_MAPS;
-  htmlType?: "password" | "number" | "text";
+  htmlType?: 'password' | 'number' | 'text';
   value?: string;
   bordered?: boolean;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
@@ -55,10 +55,10 @@ export type IProps = {
 
 export const Input: React.FC<IProps> = ({
   placeholder,
-  htmlType = "text",
+  htmlType = 'text',
   label,
-  size = "middle",
-  type = "default",
+  size = 'middle',
+  type = 'default',
   onChange,
   value,
   prefix,
@@ -77,18 +77,17 @@ export const Input: React.FC<IProps> = ({
   }, []);
 
   function onClickToFocus() {
-    if(inputRef.current){
+    if (inputRef.current) {
       inputRef.current.focus();
     }
-
   }
 
   function onKeyPress(e) {
     if (!onPressEnter) return;
     if (!e) e = window.event;
     const keyCode = e.code || e.key;
-    if (keyCode == "Enter") {
-      if (value == "") {
+    if (keyCode == 'Enter') {
+      if (value == '') {
         return;
       }
       onPressEnter(e);
@@ -119,13 +118,13 @@ export const Input: React.FC<IProps> = ({
         onClick={onClickToFocus}
         aria-hidden="true"
         className={classnames(
-          "input-wrapper",
+          'input-wrapper',
           SIZE_MAPS[size][key.wrapper],
           TYPE_MAPS[type][key.wrapper],
           BORDERED_MAPS[bordered.toString()],
           {
-            "ring-1 ring-primary-400": isFocused,
-            "opacity-40 border-gray-300 border cursor-not-allowed": disabled,
+            'ring-1 ring-primary-400': isFocused,
+            'opacity-40 border-gray-300 border cursor-not-allowed': disabled,
           }
         )}
       >
@@ -138,7 +137,7 @@ export const Input: React.FC<IProps> = ({
           value={value}
           onChange={onChange}
           className={classnames(
-            "input",
+            'input',
             SIZE_MAPS[size][key.input],
             TYPE_MAPS[type][key.input]
           )}

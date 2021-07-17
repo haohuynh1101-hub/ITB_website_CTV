@@ -22,7 +22,7 @@ export const FormItem: React.FC<IFormItemProps> = ({
   return (
     <div className="mb-4">
       {label && (
-        <label htmlFor="title" className="block mb-2 font-medium">
+        <label htmlFor="title" className="block mb-2 font-medium">
           {label} {isRequired ? <span className="text-red-400">*</span> : null}
         </label>
       )}

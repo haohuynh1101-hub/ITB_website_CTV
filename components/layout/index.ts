@@ -1,2 +1,2 @@
-export * from './sidebar';
 export * from './AppLayout';
+export * from './sidebar';

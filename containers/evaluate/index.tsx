@@ -1,7 +1,8 @@
-import { columns, dataDemo } from '../manage-ctv/constant';
-import { Table, SelectControlled, EvaluateItem } from '@components';
-import { useState } from 'react';
+import { EvaluateItem, SelectControlled, Table } from '@components';
 import { PLusIcon } from '@components';
+import { useState } from 'react';
+
+import { columns, dataDemo } from '../manage-ctv/constant';
 import { FormEvaluate } from './form/form-evaluate';
 
 const dataSelect = [
@@ -65,7 +66,7 @@ export const EvaluateContainer = () => {
         <Table columns={columns} data={dataDemo} />
 
         <div className="space-y-4">
-          <div className="font-medium flex items-center  space-x-4 text-lg">
+          <div className="flex items-center text-lg font-medium space-x-4">
             <span>Nhận xét nhóm:</span>
 
             <button onClick={onInsert}>

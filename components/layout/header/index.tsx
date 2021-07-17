@@ -1,9 +1,9 @@
+import { DropDown } from '@components/elements';
 import classNames from 'classnames';
 import Image from 'next/image';
 import { useState } from 'react';
-import { MenuToggleIcon, ChevronDownIcon } from '../../icons';
-import { Collapse } from '@components';
-import { DropDown } from '@components/elements';
+
+import { ChevronDownIcon, MenuToggleIcon } from '../../icons';
 type IProps = {
   handleToggleSidebar: () => void;
 };
@@ -20,16 +20,11 @@ const MENUS = [
 ];
 
 export const Header: React.FC<IProps> = ({ handleToggleSidebar }) => {
-  const [isCollapse, setIsCollapse] = useState(false);
-
-  const handleCollapse = () => {
-    setIsCollapse((value) => !value);
-  };
   return (
     <>
       <header className="fixed z-20 flex items-center justify-between w-screen h-16 p-4 pr-8 bg-white border-b d-flex">
         <div className="flex items-center space-x-4">
-          <div className="md:hidden flex">
+          <div className="flex md:hidden">
             <button
               className={classNames(
                 'mr-4 w-8 h-8  items-center justify-center text-gray-400 outline-none focus:outline-none hover:bg-gray-100 rounded-full transition-all duration-300'
@@ -42,12 +37,12 @@ export const Header: React.FC<IProps> = ({ handleToggleSidebar }) => {
 
           <Image src="/LogoITB.png" width={60} height={60} />
 
-          <div className="font-medium text-lg hidden md:flex">
+          <div className="hidden text-lg font-medium md:flex">
             <span>ITB Club</span>
           </div>
         </div>
 
-        <div className="font-medium flex items-center space-x-2">
+        <div className="flex items-center font-medium space-x-2">
           <span>Huynh Nhat Hao</span>
 
           <DropDown

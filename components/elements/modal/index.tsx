@@ -1,7 +1,7 @@
 import { Dialog, Transition } from '@headlessui/react';
+import useWindowSize from '@hooks/useWindowSize';
 import React, { Fragment, useRef } from 'react';
 
-import useWindowSize from '@hooks/useWindowSize';
 import { ModalHeader } from './ModalHeader';
 
 type IProps = {

@@ -1,6 +1,6 @@
 import { Button, FormItem, Input, SelectControlled } from '@components';
-import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
 interface IFormValue {
@@ -20,15 +20,17 @@ export const FormEvaluate: React.FC<IProps> = ({ defaultValue }) => {
     control,
     handleSubmit,
     formState: { errors, isSubmitting },
-    reset,
   } = useForm<IFormValue>({
     resolver: yupResolver(schema),
   });
 
+  const onSubmit: SubmitHandler<IFormValue> = (data) => {
+    console.log(data);
+  };
   return (
     <>
-      <form>
-        <div className="grid items-center gap-4 grid-cols-4">
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="items-center grid gap-4 grid-cols-4">
           <div className=" col-span-3">
             <FormItem error={errors.title?.message} isRequired>
               <Controller
@@ -67,7 +69,11 @@ export const FormEvaluate: React.FC<IProps> = ({ defaultValue }) => {
             </div>
 
             <div>
-              <Button title="Lưu" type="primary" />
+              <Button
+                title="Lưu"
+                type="primary"
+                onClick={handleSubmit(onSubmit)}
+              />
             </div>
           </div>
         </div>

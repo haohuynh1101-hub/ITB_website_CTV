@@ -1,26 +1,29 @@
-import { Drawer, FormItem, Button } from '@components';
-import { useForm, Controller } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
-type IProps = {
-  visible: boolean;
-  onClose: () => void;
-  title: string;
+import * as React from 'react';
+import { useForm } from 'react-hook-form';
+
+const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  console.log('change', event.target.value);
 };
-export const DrawerCTV: React.FC<IProps> = ({ visible, onClose, title }) => {
+
+export const DrawerCTV = () => {
+  const { register, handleSubmit } = useForm();
+  const onSubmit = (data: { fruit: string[] }) => alert(JSON.stringify(data));
+
   return (
-    <Drawer
-      visible={visible}
-      onClose={onClose}
-      title={title}
-      placement="right"
-      footer={
+    <CheckboxGroup name="fruits" value={fruits} onChange={setFruits}>
+      {(Checkbox) => (
         <>
-          <Button title="Thêm" onClick={() => console.log('')} />
+          <label>
+            <Checkbox value="apple" /> Apple
+          </label>
+          <label>
+            <Checkbox value="orange" /> Orange
+          </label>
+          <label>
+            <Checkbox value="watermelon" /> Watermelon
+          </label>
         </>
-      }
-    >
-      <form></form>
-    </Drawer>
+      )}
+    </CheckboxGroup>
   );
 };

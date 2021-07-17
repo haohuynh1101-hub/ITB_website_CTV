@@ -1,10 +1,11 @@
-import Head from 'next/head';
-import classNames from 'classnames';
-import { TMenuItem } from './sidebar/MenuItem';
-import { SidebarDesktop, SidebarMobile } from './sidebar';
-import { useState } from 'react';
 import useWindowSize from '@hooks/useWindowSize';
+import classNames from 'classnames';
+import Head from 'next/head';
+import { useState } from 'react';
+
 import { Header } from './header';
+import { SidebarDesktop, SidebarMobile } from './sidebar';
+import { TMenuItem } from './sidebar/MenuItem';
 type IProps = {
   title: string;
   children: JSX.Element;

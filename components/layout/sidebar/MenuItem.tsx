@@ -10,11 +10,9 @@ export type TMenuItem = {
 };
 export const MenuItem: React.FC<TMenuItem> = ({
   icon,
-  key,
   name,
   href,
   isActive,
-  isCompactMode,
 }) => {
   const children = (
     <li>
@@ -48,9 +46,6 @@ export const MenuItem: React.FC<TMenuItem> = ({
           <span
             className={classNames(
               'flex-1 w-full transition-all duration-300 overflow-hidden whitespace-nowrap group-hover:text-white'
-              //   {
-              //     "w-0": isCompactMode,
-              //   }
             )}
           >
             {name}
@@ -59,13 +54,6 @@ export const MenuItem: React.FC<TMenuItem> = ({
       </Link>
     </li>
   );
-  //   if (isCompactMode) {
-  //     return (
-  //       <Tooltip title={name} placement="right">
-  //         {children}
-  //       </Tooltip>
-  //     );
-  //   }
 
   return children;
 };

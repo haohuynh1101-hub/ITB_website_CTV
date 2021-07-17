@@ -1,7 +1,7 @@
 import classnames from 'classnames';
 import React from 'react';
 
-// import { Spin } from "../spin";
+import { Spin } from '../spin';
 
 const SIZE_MAPS = {
   small: 'btn-sm',
@@ -53,7 +53,7 @@ export const Button: React.FC<IProps> = ({
         className
       )}
     >
-      {/* {loading && <Spin size={size} type={type} />} */}
+      {loading && <Spin size={size} type={type} />}
       {icon}
       {title}
     </button>

@@ -1,5 +1,6 @@
-import classNames from 'classnames';
+/* eslint-disable @typescript-eslint/ban-types */
 import ReactTable from 'rc-table';
+import { ColumnsType } from 'rc-table/lib/interface';
 
 export interface IColumn {
   key?: string;

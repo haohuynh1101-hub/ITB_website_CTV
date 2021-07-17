@@ -6,10 +6,10 @@ interface FormLoginValue {
 }
 
 const Login = () => {
-  const { control, handleSubmit } = useForm<FormLoginValue>();
+  const { control } = useForm<FormLoginValue>();
 
   return (
-    <div className="w-screen h-screen flex items-center justify-center">
+    <div className="flex items-center justify-center w-screen h-screen">
       <form className=" shadow-md rounded-md">
         <FormItem label="Email">
           <Controller

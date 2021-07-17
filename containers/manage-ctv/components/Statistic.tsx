@@ -11,7 +11,7 @@ export const Statistic: React.FC<IProps> = ({ data }) => {
   return (
     <>
       <div className="space-y-4">
-        <div className="font-medium text-lg">
+        <div className="text-lg font-medium">
           <span>Thống kê</span>
         </div>
 
@@ -20,9 +20,9 @@ export const Statistic: React.FC<IProps> = ({ data }) => {
             return (
               <div
                 key={index}
-                className="flex flex-col items-center justify-center md:mx-8 mx-2 px-4 md:py-8 py-4 rounded-md shadow-md border border-gray-200 space-y-4"
+                className="flex flex-col items-center justify-center px-4 py-4 mx-2 border border-gray-200 shadow-md md:mx-8 md:py-8 rounded-md space-y-4"
               >
-                <div className="font-medium text-4xl text-primary-500">
+                <div className="text-4xl font-medium text-primary-500">
                   <span>{item.value}</span>
                 </div>
 

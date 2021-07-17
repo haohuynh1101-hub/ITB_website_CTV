@@ -1,13 +1,16 @@
 import {
-  Table,
-  Input,
   Button,
-  EditIcon,
   DeleteIcon,
+  EditIcon,
   IColumn,
+  Input,
+  Table,
 } from '@components';
+import React from 'react';
 import { useState } from 'react';
+
 import { Statistic } from './components';
+import { DrawerCTV } from './components/drawer-ctv';
 import { ModalPerson } from './components/modal-person';
 import { dataDemo } from './constant';
 import { SearchIcon } from './icons';
@@ -30,12 +33,15 @@ const data = [
     value: '40',
   },
 ];
-export const ManageCTVContainer = () => {
+export const ManageCTVContainer: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const onClose = () => {
     setIsOpen(false);
   };
 
+  const handleCreate = () => {
+    setIsOpen(true);
+  };
   const columns: IColumn[] = [
     {
       title: 'Họ và tên',
@@ -72,31 +78,31 @@ export const ManageCTVContainer = () => {
       title: 'Action',
       dataIndex: 'Action',
       key: 'Action',
-      render: () => {
-        return (
-          <>
-            <div className="flex items-center justify-center space-x-4">
-              <button onClick={() => setIsOpen(true)}>
-                <EditIcon />
-              </button>
+      // render: () => {
+      //   return (
+      //     <>
+      //       <div className="flex items-center justify-center space-x-4">
+      //         <button onClick={() => setIsOpen(true)}>
+      //           <EditIcon />
+      //         </button>
 
-              <button>
-                <DeleteIcon />
-              </button>
-            </div>
-          </>
-        );
-      },
+      //         <button>
+      //           <DeleteIcon />
+      //         </button>
+      //       </div>
+      //     </>
+      //   );
+      // },
     },
   ];
 
   return (
     <>
-      <div className="flex flex-col ">
-        <Statistic data={data} />
+      <div className="flex flex-col">
+        {/* <Statistic data={data} /> */}
 
         <div className="flex items-center justify-between mt-16 mb-4">
-          <div className="font-medium text-lg">
+          <div className="text-lg font-medium">
             <span>Danh sách cộng tác viên</span>
           </div>
 
@@ -111,14 +117,15 @@ export const ManageCTVContainer = () => {
             </div>
 
             <div>
-              <Button title="Thêm CTV" type="primary" />
+              <Button title="Thêm CTV" type="primary" onClick={handleCreate} />
             </div>
           </div>
         </div>
 
-        <Table columns={columns} data={dataDemo} />
+        {/* <Table columns={columns} data={dataDemo} /> */}
 
-        <ModalPerson isOpen={isOpen} onClose={onClose} />
+        <DrawerCTV visible={isOpen} onClose={onClose} title="Tạo mới CTV" />
+        {/* <ModalPerson isOpen={isOpen} onClose={onClose} /> */}
       </div>
     </>
   );

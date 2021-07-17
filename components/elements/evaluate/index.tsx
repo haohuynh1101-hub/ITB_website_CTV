@@ -7,7 +7,7 @@ type IProps = {
 export const EvaluateItem: React.FC<IProps> = ({ title, owner }) => {
   return (
     <>
-      <div className="grid grid-cols-5 bg-gray-300 px-4 py-2 my-4 rounded-md">
+      <div className="px-4 py-2 my-4 bg-gray-300 grid grid-cols-5 rounded-md">
         <div className="flex items-center flex-1 col-span-3">
           <span>{title}</span>
         </div>
@@ -18,7 +18,7 @@ export const EvaluateItem: React.FC<IProps> = ({ title, owner }) => {
             <span className="font-medium"> {owner}</span>
           </div>
 
-          <div className="flex items-center  flex-row-reverse">
+          <div className="flex flex-row-reverse items-center">
             <div>
               <button>
                 <DeleteIcon />

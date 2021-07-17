@@ -1,6 +1,7 @@
 import classNames from 'classnames';
-import { SidebarContent } from './SidebarContent';
+
 import { TMenuItem } from './MenuItem';
+import { SidebarContent } from './SidebarContent';
 type IProps = {
   menuActiveKey: string;
   menus: TMenuItem[];

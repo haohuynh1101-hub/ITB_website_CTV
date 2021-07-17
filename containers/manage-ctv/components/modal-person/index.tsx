@@ -1,4 +1,4 @@
-import { Modal, Button, EvaluateItem } from '@components';
+import { Button, EvaluateItem, Modal } from '@components';
 
 type IProps = {
   isOpen: boolean;
@@ -32,16 +32,10 @@ export const ModalPerson: React.FC<IProps> = ({ isOpen, onClose }) => {
         title="Thong tin ca nhan cua Huynh Nhat Hao"
       >
         <div className="flex space-x-4">
-          <div>
-            <img
-              src="https://via.placeholder.com/250"
-              width={200}
-              height={150}
-            />
-          </div>
+          <div></div>
 
           <div className="divide-y ">
-            <div className="text-primary-500 font-medium">
+            <div className="font-medium text-primary-500">
               <span>Thông tin cơ bản:</span>
             </div>
 
@@ -63,7 +57,7 @@ export const ModalPerson: React.FC<IProps> = ({ isOpen, onClose }) => {
         </div>
 
         <div className="my-4">
-          <div className="text-primary-500 font-medium">
+          <div className="font-medium text-primary-500">
             <span>Nhận xét:</span>
           </div>
 
