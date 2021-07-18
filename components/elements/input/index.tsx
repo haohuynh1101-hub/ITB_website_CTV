@@ -43,7 +43,7 @@ export type IProps = {
   prefix?: React.ReactNode;
   size?: keyof typeof SIZE_MAPS;
   type?: keyof typeof TYPE_MAPS;
-  htmlType?: 'password' | 'number' | 'text';
+  htmlType?: 'password' | 'number' | 'text' | 'checkbox';
   value?: string;
   bordered?: boolean;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;

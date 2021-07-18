@@ -10,4 +10,5 @@ export * from './form-item';
 export * from './input';
 export * from './modal';
 export * from './select';
+export * from './select-multi';
 export * from './table';

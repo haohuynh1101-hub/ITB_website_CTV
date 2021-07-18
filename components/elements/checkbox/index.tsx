@@ -1,40 +1,25 @@
-import { ChangeEvent, useState } from 'react';
-
-type IProps = {
-  value: string[];
+import React from 'react';
+type ICheckboxProps = {
+  value: string;
   name?: string;
-  onChange: (value: string) => void;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   title: string;
 };
-export const CheckboxGroup: React.FC<IProps> = ({
+export const Checkbox: React.FC<ICheckboxProps> = ({
   value,
   onChange,
-  name,
   title,
 }) => {
-  const _handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    onChange(event.target.value);
-  };
   return (
-    <label>
+    <label className="inline-flex items-center">
       <input
-        name={name}
         type="checkbox"
+        className="w-5 h-5 shadow-inner outline-none rounded-md form-tick checked:bg-primary-400 checked:border-transparent transition-all duration-200"
+        name="departmentType"
         value={value}
-        onChange={_handleChange}
-        // ref={register({ required: 'Please select fruits' })}
-      />{' '}
-      {title}
+        onChange={onChange}
+      />
+      <span className="ml-2">{title}</span>
     </label>
-    // <label className="inline-flex items-center">
-    //   <input
-    //     type="checkbox"
-    //     className="w-5 h-5 border border-gray-400 outline-none appearance-none rounded-md form-tick checked:bg-primary-400 checked:border-transparent transition-all duration-200"
-    //     name="departmentType"
-    //     value={value}
-    //     onChange={_handleChange}
-    //   />
-    //   {/* <span className="ml-2">{title}</span> */}
-    // </label>
   );
 };

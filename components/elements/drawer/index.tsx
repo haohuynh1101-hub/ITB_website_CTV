@@ -1,3 +1,4 @@
+import useWindowSize from '@hooks/useWindowSize';
 import ReactDrawer from 'rc-drawer';
 
 interface IProps {
@@ -66,14 +67,15 @@ export const Drawer: React.FC<IProps> = ({
         getContainer: undefined,
       }
     : {};
-
+  const size = useWindowSize();
+  const isMobile = size.width < 768;
   return (
     <ReactDrawer
       title={title}
       open={visible}
       onClose={onClose}
       handler={false}
-      width={width}
+      width={isMobile ? '100vw' : width}
       placement={placement}
       id={id}
       level={level}
@@ -89,9 +91,7 @@ export const Drawer: React.FC<IProps> = ({
           level={level}
         />
       )}
-      <div className="px-6 py-4 overflow:auto" style={{ height: maxHeight }}>
-        {children}
-      </div>
+      <div className="px-6 py-4 overflow:auto">{children}</div>
       {footer && (
         <div className="flex items-center h-16 px-6 py-4 border-t">
           {footer}
