@@ -3,7 +3,7 @@
 
 @layer components {
   .btn {
-    @apply px-5 py-3 flex items-center justify-center h-10 relative text-center shadow-inner transition ease-in-out duration-300 rounded-md whitespace-nowrap text-base font-semibold space-x-1;
+    @apply px-5 py-3 flex items-center justify-center h-10 relative text-center  transition ease-in-out duration-300 rounded-md whitespace-nowrap text-base font-semibold space-x-1;
   }
   .btn:hover,
   .btn:focus,
@@ -35,10 +35,10 @@
     @apply bg-primary-400 text-white border border-primary-400;
   }
   .btn.btn-primary:hover {
-    @apply bg-primary-400;
+    @apply bg-primary-500;
   }
   .btn.btn-primary:focus {
-    @apply ring-2 ring-offset-2 ring-primary-400;
+    @apply ring-2 ring-offset-2 ring-primary-500;
   }
 
   .btn.btn-block {
@@ -48,7 +48,7 @@
 
 /* wrapper-input */
 .input-wrapper {
-  @apply relative w-full min-w-0 h-10 px-4 flex items-center outline-none text-gray-500  text-base rounded-md shadow-inner;
+  @apply relative w-full min-w-0 h-10 px-4 flex items-center outline-none text-gray-500  text-base rounded-md border;
 }
 /* type wrapper-input */
 .input-wrapper.input-wrapper-default {
@@ -85,7 +85,7 @@
 
 /* select */
 .select {
-  @apply relative flex h-10 items-center justify-between w-full py-4 px-2 text-left font-semibold  text-gray-600   cursor-default   shadow-inner focus:outline-none  text-base;
+  @apply relative flex h-10 items-center justify-between w-full py-4 px-2 text-left font-semibold  text-gray-500   cursor-default    focus:outline-none  text-base;
 }
 .select.select-default:focus {
   @apply focus:ring-1 focus:ring-primary-400;
@@ -154,10 +154,13 @@
 .rc-table table {
   @apply border border-primary-400 !important;
 }
-
+/* react-collapse */
+.ReactCollapse--collapse {
+  @apply transition-height duration-300;
+}
 /* date-picker */
 .react-datepicker-wrapper{
-  @apply w-full !important
+  @apply w-full !important;
 }
 
 }

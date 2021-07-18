@@ -7,11 +7,6 @@ import ReSelect, {
 } from 'react-select';
 import { ThemeConfig } from 'react-select/src/theme';
 
-interface OptionType {
-  value: string;
-  label: string;
-}
-
 interface Props extends SelectProps<OptionTypeBase, boolean> {
   name: string;
   option: string | string[];

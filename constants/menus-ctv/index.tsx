@@ -1,6 +1,12 @@
-import { CommentIcon, ManageCTVIcon } from '@components/icons';
+import { CommentIcon, DashboardIcon, ManageCTVIcon } from '@components/icons';
 
 export const menusCTV = [
+  {
+    key: 'Dashboard',
+    name: 'Thống kê',
+    icon: <DashboardIcon />,
+    href: '/ctv/dashboard',
+  },
   {
     key: 'ManageCTV',
     name: 'Quản lý CTV',

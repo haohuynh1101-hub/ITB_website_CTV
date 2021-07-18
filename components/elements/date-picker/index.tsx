@@ -18,7 +18,7 @@ const CustomInput = forwardRef<HTMLDivElement, ICustomInputProps>(
     return (
       <div
         className={classNames(
-          'flex items-center h-10 px-4 bg-gray-100 cursor-pointer rounded-md shadow-inner',
+          'flex items-center h-10 px-4 bg-gray-100 cursor-pointer rounded-md border',
           {
             'ring-1 ring-primary-400': isOpen,
             'cursor-not-allowed opacity-75': disabled,

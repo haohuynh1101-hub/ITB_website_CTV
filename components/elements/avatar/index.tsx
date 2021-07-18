@@ -1,6 +1,8 @@
 import classNames from 'classnames';
 import React from 'react';
 
+import { getColorFromText } from './utils';
+
 const SIZE_MAPS = {
   small: 'w-6 h-6', // 24px
   default: 'w-8 h-8', // 32px
@@ -15,7 +17,7 @@ type IProps = {
 };
 
 export const Avatar: React.FC<IProps> = ({
-  fullName = 'TractionWork',
+  fullName = ' ',
   src,
   size = 'default',
   className,
@@ -32,7 +34,7 @@ export const Avatar: React.FC<IProps> = ({
         SIZE_MAPS[size],
         className
       )}
-      //   style={{ backgroundColor: getColorFromText(char) }}
+      style={{ backgroundColor: getColorFromText(char) }}
     >
       {src ? (
         // eslint-disable-next-line @next/next/no-img-element

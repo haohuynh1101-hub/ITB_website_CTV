@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { Button, EvaluateItem, Modal } from '@components';
 
 type IProps = {
@@ -32,7 +33,14 @@ export const ModalPerson: React.FC<IProps> = ({ isOpen, onClose }) => {
         title="Thong tin ca nhan cua Huynh Nhat Hao"
       >
         <div className="flex space-x-4">
-          <div></div>
+          <div>
+            <img
+              src="https://via.placeholder.com/300"
+              width={200}
+              height={200}
+              alt=""
+            />
+          </div>
 
           <div className="divide-y ">
             <div className="font-medium text-primary-500">

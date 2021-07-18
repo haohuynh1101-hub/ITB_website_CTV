@@ -1,8 +1,17 @@
-import { EvaluateItem, SelectControlled, Table } from '@components';
+/* eslint-disable react/display-name */
+import {
+  EditIcon,
+  EvaluateIcon,
+  IColumn,
+  SelectControlled,
+  Table,
+} from '@components';
 import { PLusIcon } from '@components';
+import Link from 'next/link';
 import { useState } from 'react';
 
-import { columns, dataDemo } from '../manage-ctv/constant';
+import { EvaluatePersonalItem } from '../evaluate-personal/components/evaluate-personal-item';
+import { dataDemo } from './constant';
 import { FormEvaluate } from './form/form-evaluate';
 
 const dataSelect = [
@@ -27,7 +36,96 @@ const dataSelect = [
     value: '5',
   },
 ];
+
+const listJudge = [
+  {
+    owner: 'Trương Quốc Tuấn',
+    judge: [
+      {
+        description: 'Làm việc tốt',
+      },
+    ],
+  },
+  {
+    owner: 'Nguyễn Huyền Thương',
+    judge: [
+      {
+        description: 'Làm việc tốt',
+      },
+    ],
+  },
+  {
+    owner: 'Nguyễn Nhật Nguyên',
+    judge: [
+      {
+        description: 'Làm việc tốt',
+      },
+    ],
+  },
+];
 export const EvaluateContainer = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const columns: IColumn[] = [
+    {
+      title: 'Họ và tên',
+      dataIndex: 'FullName',
+      key: 'FullName',
+      align: 'center',
+      width: '',
+    },
+    {
+      title: 'Email',
+      dataIndex: 'Email',
+      key: 'Email',
+      align: 'center',
+
+      width: '',
+    },
+    {
+      title: 'Ban',
+      dataIndex: 'Department',
+      key: 'Department',
+      align: 'center',
+
+      width: '',
+    },
+    {
+      title: 'Chức vụ',
+      dataIndex: 'Position',
+      key: 'Position',
+      align: 'center',
+
+      width: '',
+    },
+    {
+      title: 'Action',
+      dataIndex: 'Action',
+      key: 'Action',
+      render: (text, record) => {
+        console.log(record, '==>record');
+        return (
+          <>
+            <div className="flex items-center justify-center space-x-4 ">
+              <Link
+                href={{
+                  pathname: '/ctv/manage-ctv/[id]',
+                  query: { id: `${record.key}` },
+                }}
+              >
+                <a>
+                  <EvaluateIcon />
+                </a>
+              </Link>
+              <button onClick={() => setIsOpen(true)}>
+                <EditIcon />
+              </button>
+            </div>
+          </>
+        );
+      },
+    },
+  ];
   const [selected, setSelected] = useState<string>('');
   const [isInsert, setIsInsert] = useState(false);
 
@@ -76,14 +174,14 @@ export const EvaluateContainer = () => {
 
           {isInsert && <FormEvaluate />}
 
-          <EvaluateItem
-            title="Nhóm này làm việc oki nhá!"
-            owner="Vũ Quang Huy"
-          />
-          <EvaluateItem
-            title="Nhóm này làm việc oki nhá!"
-            owner="Vũ Quang Huy"
-          />
+          {listJudge.map((item, index) => (
+            <EvaluatePersonalItem
+              key={index}
+              owner={item.owner}
+              judge={item.judge}
+              isEditor={true}
+            />
+          ))}
         </div>
       </div>
     </>

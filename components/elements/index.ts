@@ -1,3 +1,5 @@
+import dynamic from 'next/dynamic';
+
 export * from './avatar';
 export * from './button';
 export * from './checkbox';
@@ -12,3 +14,4 @@ export * from './modal';
 export * from './select';
 export * from './select-multi';
 export * from './table';
+export const Editor = dynamic(() => import('./editor'), { ssr: false });

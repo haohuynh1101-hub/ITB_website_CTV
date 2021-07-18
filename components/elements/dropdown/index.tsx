@@ -10,7 +10,7 @@ export type MenuItemDropdown = {
 
 type IProps = {
   menus?: MenuItemDropdown[];
-  onClick: (key: string) => void;
+  onClick?: (key: string) => void;
   placement?: 'left' | 'right';
   overlay?: JSX.Element;
   animation?: boolean;
