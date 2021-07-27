@@ -162,6 +162,21 @@
 .react-datepicker-wrapper{
   @apply w-full !important;
 }
-
+.table-scorecard .cell-fixed {
+  @apply sticky bg-white;
+  z-index: 2;
+}
+.table-scorecard .cell-fixed.shadow-border-r {
+  box-shadow: -1px 0px 0px #e5e7eb inset;
+}
+.table-scorecard .cell-fixed.shadow-border-l {
+  box-shadow: 1px 0px 0px #e5e7eb inset;
+}
+.table-scorecard .cell-fixed.shadow-border-b {
+  box-shadow: 0px -1px 0px #e5e7eb inset;
+}
+.table-scorecard tr td {
+  @apply transition-all duration-300;
+}
 }
 @tailwind utilities;

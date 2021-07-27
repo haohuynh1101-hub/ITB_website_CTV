@@ -1,5 +1,6 @@
 /* eslint-disable react/display-name */
 import {
+  Button,
   EditIcon,
   EvaluateIcon,
   IColumn,
@@ -11,6 +12,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 
 import { EvaluatePersonalItem } from '../evaluate-personal/components/evaluate-personal-item';
+import { ModalGroup } from './components';
 import { dataDemo } from './constant';
 import { FormEvaluate } from './form/form-evaluate';
 
@@ -98,33 +100,6 @@ export const EvaluateContainer = () => {
 
       width: '',
     },
-    {
-      title: 'Action',
-      dataIndex: 'Action',
-      key: 'Action',
-      render: (text, record) => {
-        console.log(record, '==>record');
-        return (
-          <>
-            <div className="flex items-center justify-center space-x-4 ">
-              <Link
-                href={{
-                  pathname: '/ctv/manage-ctv/[id]',
-                  query: { id: `${record.key}` },
-                }}
-              >
-                <a>
-                  <EvaluateIcon />
-                </a>
-              </Link>
-              <button onClick={() => setIsOpen(true)}>
-                <EditIcon />
-              </button>
-            </div>
-          </>
-        );
-      },
-    },
   ];
   const [selected, setSelected] = useState<string>('');
   const [isInsert, setIsInsert] = useState(false);
@@ -136,19 +111,34 @@ export const EvaluateContainer = () => {
   const onInsert = () => {
     setIsInsert((value) => !value);
   };
+
+  const handleClose = () => {
+    setIsOpen(false);
+  };
+
+  const handleOpen = () => {
+    setIsOpen(true);
+  };
   return (
     <>
       <div className="space-y-8">
-        <div className="flex items-center justify-between">
-          <div className="w-36">
+        <div className="items-center justify-between grid grid-cols-2">
+          <div className="flex items-center space-x-4">
             <SelectControlled
               value={selected}
               options={dataSelect}
               onChange={handleSelect}
               placeholder="Nhóm CTV"
             />
+
+            <Button
+              title="Ghép nhóm"
+              type="primary"
+              block={false}
+              onClick={handleOpen}
+            />
           </div>
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center justify-end space-x-4">
             <div className="flex items-center space-x-2">
               <span>Số thành viên:</span>
               <span className="font-medium">7</span>
@@ -184,6 +174,8 @@ export const EvaluateContainer = () => {
           ))}
         </div>
       </div>
+
+      <ModalGroup title="Ghép nhóm" visible={isOpen} onClose={handleClose} />
     </>
   );
 };

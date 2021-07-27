@@ -1,4 +1,9 @@
-import { CommentIcon, DashboardIcon, ManageCTVIcon } from '@components/icons';
+import {
+  DashboardIcon,
+  ManageCTVIcon,
+  ScoreIcon,
+  TeamIcon,
+} from '@components/icons';
 
 export const menusCTV = [
   {
@@ -15,8 +20,14 @@ export const menusCTV = [
   },
   {
     key: 'Evaluate',
-    name: 'Đánh giá',
-    icon: <CommentIcon />,
+    name: 'Đội nhóm CTV',
+    icon: <TeamIcon />,
     href: '/ctv/evaluate',
+  },
+  {
+    key: 'Score',
+    name: 'Điểm thi CTV',
+    icon: <ScoreIcon />,
+    href: '/ctv/score',
   },
 ];
