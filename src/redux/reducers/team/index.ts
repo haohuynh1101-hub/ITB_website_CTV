@@ -12,23 +12,21 @@ import { ITeam } from './type';
 
 export type TeamState = {
   pending: boolean;
+  error: boolean;
   teams: ITeam[];
 };
 
 const initialState: TeamState = {
   pending: false,
+  error: false,
   teams: [],
 };
 
 export const createTeamAsync = createAsyncThunk(
   'team/create',
   async (payload: { data: RequestTeamBody }) => {
-    try {
-      const result = await createTeam(payload.data);
-      return result;
-    } catch (error) {
-      console.log(error);
-    }
+    const result = await createTeam(payload.data);
+    return result;
   }
 );
 
@@ -42,7 +40,7 @@ export const getTeamsAsync = createAsyncThunk('team/get', async () => {
 });
 
 export const updateTeamAsync = createAsyncThunk(
-  'candidate/update',
+  'team/update',
   async (payload: { teamId: string; data: RequestTeamBody }) => {
     try {
       const result = await updateTeam(payload.teamId, payload.data);
@@ -54,7 +52,7 @@ export const updateTeamAsync = createAsyncThunk(
 );
 
 export const teamSlice = createSlice({
-  name: 'candidate',
+  name: 'team',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -64,10 +62,12 @@ export const teamSlice = createSlice({
       })
       .addCase(createTeamAsync.fulfilled, (state, action) => {
         state.pending = false;
+        state.error = false;
         state.teams.push(action.payload);
       })
       .addCase(createTeamAsync.rejected, (state) => {
         state.pending = false;
+        state.error = true;
       });
     //
     builder

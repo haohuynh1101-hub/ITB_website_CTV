@@ -2,25 +2,29 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import React, { useEffect, useMemo, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 import * as yup from 'yup';
 
 import { FooterForm } from '@/components/drawer-ctv/FooterForm';
 import { convertSimpleToComplexOptions, Drawer, FormItem, Input, ISelectComplexOption, SelectComplex } from '@/components/elements';
 import { useAppDispatch, useAppSelector } from '@/hooks';
-import { getCandidatesAsync } from '@/redux/reducers';
+import { createTeamAsync, getCandidatesAsync } from '@/redux/reducers';
+import { RequestTeamBody } from '@/services/api';
 
 import { IFormValues } from '../type';
 
 type IProps = {
     id: string,
-    visible: boolean,
-    onClose: () => void
     defaultValues: IFormValues
+    visible: boolean,
+    afterVisibleChange?: (visible: boolean) => void
+    onClose: () => void
+
 }
 
 const schema = yup.object().shape({
     teamName: yup.string().required('is required'),
-    leaderId: yup.string().email().required('is required'),
+    leaderId: yup.string().required('is required'),
     memberIds: yup
         .array()
         .of(yup.string())
@@ -33,12 +37,13 @@ const schema = yup.object().shape({
         .required('is required'),
 });
 
-const _DrawerTeam: React.FC<IProps> = ({ id, defaultValues, visible, onClose }) => {
+const _DrawerTeam: React.FC<IProps> = ({ id, defaultValues, visible, onClose, afterVisibleChange }) => {
     const [loading, setLoading] = useState({ update: false, archive: false });
-    const isUpdate = defaultValues?.id
+    const isUpdate = defaultValues?._id
 
     const dispatch = useAppDispatch()
     const userReducer = useAppSelector((state) => state.users)
+
     const { supporters, candidates } = userReducer
 
     useEffect(() => {
@@ -73,7 +78,6 @@ const _DrawerTeam: React.FC<IProps> = ({ id, defaultValues, visible, onClose }) 
     const {
         handleSubmit,
         control,
-        setValue,
         formState: { errors },
     } = useForm<IFormValues>({
         resolver: yupResolver(schema),
@@ -81,21 +85,43 @@ const _DrawerTeam: React.FC<IProps> = ({ id, defaultValues, visible, onClose }) 
         reValidateMode: 'onChange',
     });
 
-    const onSubmit = (data: IFormValues) => {
-        console.log(data)
+    const onSubmit = async (data: RequestTeamBody) => {
+        setLoading((prevState) => ({ ...prevState, update: true }));
+
+        try {
+            if (isUpdate) {
+                console.log("update")
+            } else {
+                const result = await dispatch(createTeamAsync({ data }))
+                if (result.meta.requestStatus === "rejected") {
+                    return toast.error("Tạo nhóm không thành công")
+                }
+                toast.success("Tạo nhóm thành công")
+
+            }
+        } catch (error) {
+            toast.error("Tạo nhóm không thành công")
+        } finally {
+            setLoading((prevState) => ({ ...prevState, update: false }));
+
+            onClose()
+        }
     }
     return (
         <Drawer id={id}
             title={isUpdate ? 'Cập nhật Team' : 'Tạo mới Team'}
             placement="right"
-            visible={visible} onClose={onClose} footer={
+            visible={visible}
+            onClose={onClose}
+            afterVisibleChange={afterVisibleChange}
+            footer={
                 <FooterForm
                     isUpdate={isUpdate}
                     isSubmitting={loading.update}
                     onClick={handleSubmit(onSubmit)}
                 />
             }>
-            <form>
+            <form onSubmit={handleSubmit(onSubmit)}>
                 <FormItem label="Tên nhóm" isRequired error={errors.teamName?.message}>
                     <Controller
                         control={control}
