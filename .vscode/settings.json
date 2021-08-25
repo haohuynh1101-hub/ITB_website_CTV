@@ -1,0 +1,12 @@
+{
+    "editor.formatOnSave": true,
+    "tailwindCSS.experimental.classRegex": [
+      "tw.*`([^`]*)",
+      "tw`([^`]*)",
+      ["classnames\\(([^)]*)\\)", "'([^']*)'"]
+    ],
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true
+    }
+  }
+  
