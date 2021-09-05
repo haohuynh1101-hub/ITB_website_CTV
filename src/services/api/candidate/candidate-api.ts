@@ -1,16 +1,28 @@
 /* eslint-disable prettier/prettier */
 import axios from 'axios';
 
-import { apiRequest, url } from '../api-config';
+import { apiRequest, getHeader, url } from '../api-config';
 import * as Types from './type';
 
 export const getCandidates = async () => {
-  const getCandidateRequest: apiRequest = {
+  const getCandidatesRequest: apiRequest = {
     url: `${url}/users`,
     method: 'GET',
     baseUrl: url,
+    headers: getHeader(),
   };
-  const response = await axios.request(getCandidateRequest);
+  const response = await axios.request(getCandidatesRequest);
+  return response.data;
+};
+
+export const getCandidateDetail = async (userId: string) => {
+  const getCandidateDetailRequest: apiRequest = {
+    url: `${url}/users/${userId}`,
+    method: 'GET',
+    baseUrl: url,
+    headers: getHeader(),
+  };
+  const response = await axios.request(getCandidateDetailRequest);
   return response.data;
 };
 
@@ -20,6 +32,7 @@ export const createCandidate = async (body: Types.RequestCandidateBody) => {
     method: 'POST',
     baseUrl: url,
     data: body,
+    headers: getHeader(),
   };
   const response = await axios.request(createCandidateRequest);
   return response.data;
@@ -34,6 +47,7 @@ export const updateCandidate = async (
     method: 'PATCH',
     baseUrl: url,
     data: body,
+    headers: getHeader(),
   };
   const response = await axios.request(createCandidateRequest);
   return response.data;

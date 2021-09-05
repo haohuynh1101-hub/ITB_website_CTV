@@ -8,10 +8,12 @@ const SIZE_MAPS = {
 };
 
 const TYPE_MAPS = {
-  default: 'text-primary-50',
-  primary: 'text-white',
-  gray: 'text-gray-400',
-  text: 'text-gray-400',
+  primary: 'btn-primary',
+  default: 'btn-default',
+  gray: 'btn-gray',
+  text: 'btn-text',
+  'text-primary': 'btn-text-primary',
+  success: 'btn-success',
 };
 
 type IProps = {

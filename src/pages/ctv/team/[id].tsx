@@ -1,6 +1,7 @@
 import { AppLayout } from 'components/layout';
 import { menusCTV } from 'constants/menus-ctv';
-import { TeamEvaluationContainer } from 'containers';
+
+import { TeamEvaluationContainer } from '@/containers/team';
 
 const TeamPage = () => {
     return (

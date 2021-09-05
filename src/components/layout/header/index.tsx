@@ -21,7 +21,7 @@ const MENUS = [
 export const Header: React.FC<IProps> = ({ handleToggleSidebar }) => {
   return (
     <>
-      <header className="fixed z-20 flex items-center justify-between w-screen h-16 p-4 pr-8 bg-white border-b d-flex">
+      <header className="fixed z-20 flex items-center justify-between w-screen pr-4 bg-white border-b h-header top-notice md:pr-8">
         <div className="flex items-center space-x-4">
           <div className="flex md:hidden">
             <button

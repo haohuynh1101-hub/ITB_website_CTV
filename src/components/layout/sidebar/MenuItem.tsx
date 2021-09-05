@@ -21,8 +21,8 @@ export const MenuItem: React.FC<TMenuItem> = ({
           className={classNames(
             'group flex items-center w-full transition duration-300 ease-in-out px-4 py-4 font-medium',
             {
-              'bg-primary-500 text-white': isActive,
-              'hover:bg-primary-500': !isActive,
+              'bg-primary-400 text-white': isActive,
+              'hover:bg-primary-400': !isActive,
               'px-8': !icon,
             }
           )}

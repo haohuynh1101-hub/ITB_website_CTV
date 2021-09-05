@@ -1,6 +1,7 @@
 import { AppLayout } from 'components/layout/AppLayout';
 import { menusCTV } from 'constants/menus-ctv';
-import { EvaluatePersonalContainer } from 'containers';
+
+import { EvaluatePersonalContainer } from '@/containers/evaluate-personal';
 const EvaluatePersonal = () => {
   return (
     <>

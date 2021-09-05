@@ -1,4 +1,6 @@
-import { ITab } from '@components';
+import { ITab } from 'components/elements';
+
+import { DeleteIcon, EditIcon } from '@/components/icons';
 
 export const EVALUATE_INTERVAL_TABS: ITab[] = [
   {
@@ -50,5 +52,18 @@ export const dataDemo = [
     Email: 'haohn19411c@st.uel.edu.vn',
     Department: 'Hoc Thuat',
     Position: 'Thanh vien',
+  },
+];
+
+export const menus = [
+  {
+    prefix: <EditIcon />,
+    value: 'edit',
+    name: 'Chỉnh sửa',
+  },
+  {
+    prefix: <DeleteIcon size={20} />,
+    value: 'delete',
+    name: 'Xóa',
   },
 ];

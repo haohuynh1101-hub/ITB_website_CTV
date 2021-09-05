@@ -1,4 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
+import { Upload } from 'antd';
 import {
   DatePicker,
   Drawer,
@@ -12,22 +13,42 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import * as yup from 'yup';
 
-import { FooterForm } from '@/components/drawer-ctv/FooterForm';
+import { FooterForm } from '@/components/footer-drawer/FooterForm';
 import { useAppDispatch } from '@/hooks';
 import {
   createCandidateAsync,
   updateCandidatesAsync,
 } from '@/redux/reducers/candidate';
+import { DriveApi } from '@/services/api';
 import { RequestCandidateBody } from '@/services/api/candidate';
 
+import { ButtonUpload } from '../button-upload';
 import { abilityOptions, departmentOptions } from '../constants';
 import { IFormValue } from '../type';
+function getBase64(img, callback) {
+  const reader = new FileReader();
+  reader.addEventListener('load', () => callback(reader.result));
+  reader.readAsDataURL(img);
+}
+
+function beforeUpload(file) {
+  console.log(file.size, '==>size');
+  const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+  if (!isJpgOrPng) {
+    toast.error('You can only upload JPG/PNG file!');
+  }
+  const isLt2M = file.size / 1024 / 1024 < 2;
+  if (!isLt2M) {
+    toast.error('Image must smaller than 2MB!');
+  }
+  return isJpgOrPng && isLt2M;
+}
 
 type IProps = {
   visible: boolean;
-  onClose: () => void;
   defaultValues?: IFormValue;
   //
+  onClose: () => void;
   onCreate?: (body: RequestCandidateBody) => void;
   onAfterVisibleChange: (visible: boolean) => void;
 };
@@ -37,7 +58,7 @@ const schema = yup.object().shape({
   email: yup.string().email().required('is required'),
   birthday: yup.string().required('is required'),
   phone: yup.string().required('is required'),
-  mssv: yup.string().required('is required'),
+  studentId: yup.string().required('is required'),
   department: yup
     .array()
     .of(yup.string())
@@ -60,9 +81,14 @@ export const DrawerCTV: React.FC<IProps> = ({
 }) => {
   const dispatch = useAppDispatch();
 
-  const [loading, setLoading] = useState({ update: false, archive: false });
+  const [loading, setLoading] = useState({
+    update: false,
+    archive: false,
+    loadingImg: false,
+  });
   const [isRendered, setIsRendered] = useState(false);
   const isRenderedForm = useRef(false);
+  const [file, setFile] = useState(defaultValues?.avatar);
 
   const {
     control,
@@ -94,12 +120,14 @@ export const DrawerCTV: React.FC<IProps> = ({
         email: defaultValues.email,
         birthday: defaultValues.birthday,
         phone: defaultValues.phone,
-        mssv: defaultValues.mssv,
+        studentId: defaultValues.studentId,
         department: defaultValues.department,
         address: defaultValues.address,
         gender: defaultValues.gender,
         ability: defaultValues.ability,
         major: defaultValues.major,
+        linkFB: defaultValues?.linkFB,
+        avatar: defaultValues?.avatar,
       });
     } else {
       reset({
@@ -107,16 +135,17 @@ export const DrawerCTV: React.FC<IProps> = ({
         email: '',
         birthday: new Date(),
         phone: '',
-        mssv: '',
+        studentId: '',
         department: [],
         address: '',
         gender: 'Nam',
         ability: [],
         major: '',
+        linkFB: '',
+        avatar: '',
       });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [defaultValues]);
+  }, [defaultValues, visible, reset]);
 
   const handleMultiChange = (options) => {
     setValue(
@@ -141,25 +170,27 @@ export const DrawerCTV: React.FC<IProps> = ({
   };
 
   const onSubmit: SubmitHandler<IFormValue> = async (data) => {
+    delete data._id;
+
     const body: RequestCandidateBody = {
       ...data,
+      avatar: file,
       role: 'CANDIDATE',
       birthday: new Date(data.birthday).toDateString(),
     };
     setLoading((prevState) => ({ ...prevState, update: true }));
-
     try {
       if (isUpdate) {
         const result = await dispatch(
           updateCandidatesAsync({ candidateId: defaultValues._id, data: body })
         );
-        if (!result) {
+        if (result.meta.requestStatus === 'rejected') {
           return toast.error('Cập nhật không thành công');
         }
         toast.success('Cập nhật thành công');
       } else {
         const result = await dispatch(createCandidateAsync({ data: body }));
-        if (!result) {
+        if (result.meta.requestStatus === 'rejected') {
           return toast.error('Tạo không thành công');
         }
         toast.success('Tạo thành công');
@@ -172,12 +203,63 @@ export const DrawerCTV: React.FC<IProps> = ({
     }
   };
 
+  const uploadImage = async (info) => {
+    if (info.file.status === 'uploading') {
+      setLoading((prevState) => ({ ...prevState, loadingImg: true }));
+
+      return;
+    }
+    if (info.file.status === 'done') {
+      // Get this url from response in real world.
+      getBase64(
+        info.file.originFileObj,
+        (imageUrl) => {
+          console.log(imageUrl, '==>imageUrl');
+          setLoading((prevState) => ({ ...prevState, loadingImg: false }));
+          setFile(imageUrl);
+        }
+        // this.setState({
+        //   imageUrl,
+        //   loading: false,
+        // })
+      );
+    }
+  };
+
   const renderForm = () => {
     if (!isRendered) {
       return null;
     }
     return (
       <form onSubmit={handleSubmit(onSubmit)}>
+        <FormItem
+          label="Avatar"
+          description="You can upload a JPG, GIF, or PNG file. File size limit 200 KB."
+        >
+          <Controller
+            name="avatar"
+            control={control}
+            defaultValue=""
+            render={({ field: { value } }) => (
+              <Upload
+                name="avatar"
+                listType="picture-card"
+                className="avatar-uploader"
+                showUploadList={false}
+                // action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                beforeUpload={beforeUpload}
+                onChange={uploadImage}
+              >
+                <ButtonUpload
+                  src={file}
+                  char="ITB"
+                  loading={loading.loadingImg}
+                />
+              </Upload>
+            )}
+          />
+        </FormItem>
+
         <div className="grid grid-cols-3 gap-4">
           <FormItem
             label="Họ và tên"
@@ -233,15 +315,15 @@ export const DrawerCTV: React.FC<IProps> = ({
           </FormItem>
         </div>
 
-        <div className=" grid md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-3 gap-4">
           <FormItem
             label="Mã số sinh viên"
             isRequired
-            error={errors.mssv?.message}
+            error={errors.studentId?.message}
           >
             <Controller
               control={control}
-              name="mssv"
+              name="studentId"
               render={({ field: { value, onChange } }) => (
                 <Input
                   placeholder="MSSV"

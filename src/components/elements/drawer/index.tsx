@@ -1,13 +1,14 @@
-import { CloseIcon } from 'components';
-import { BREAKPOINTS } from 'constants/index';
-import useWindowSize from 'hooks/useWindowSize';
+import classNames from 'classnames';
 import ReactDrawer from 'rc-drawer';
 import { useMemo } from 'react';
 
+import { BREAKPOINTS } from '@/constants';
+import useWindowSize from '@/hooks/useWindowSize';
+
 interface IProps {
-  id?: string;
   title?: string;
   subTitle?: string | JSX.Element;
+  right?: JSX.Element;
   visible: boolean;
   placement?: 'left' | 'right';
   level?: string;
@@ -15,58 +16,70 @@ interface IProps {
   onClose: () => void;
   afterVisibleChange?: (visible: boolean) => void;
   footer?: JSX.Element;
+  id?: string;
   shouldResponsive?: boolean;
 }
 
-const Header = ({ title, subTitle, onClose, level }) => (
-  <div className="flex flex-row items-center h-16 px-6 py-4 border-b">
+const Header = ({ title, subTitle, right, onClose, level }) => (
+  <div className="flex flex-row items-center px-6 border-b h-14">
     {level && (
       <button
         onClick={onClose}
-        className="mr-4 text-gray-300 hover:text-gray-400"
+        className="inline-block pl-6 pr-6 -ml-6 text-lg text-gray-300 outline-none focus:outline-none hover:text-gray-400 transition-all duration-300"
       >
         <i className="fas fa-chevron-left" />
       </button>
     )}
-    <div className="flex items-baseline flex-1 space-x-4">
-      <h3 className="text-lg font-medium">{title}</h3>
+
+    <div
+      className={classNames(
+        'flex items-baseline flex-1 overflow-hidden',
+        'md:space-x-4',
+        'flex-col md:flex-row'
+      )}
+    >
+      <h3 className="text-base font-medium leading-normal">{title}</h3>
+
       {subTitle && (
-        <div className="flex-1 truncate">
-          {typeof subTitle === 'string' ? (
-            <span className="text-gray-600">{subTitle}</span>
-          ) : (
-            <div>{subTitle}</div>
-          )}
+        <div className="flex-1 text-xs truncate md:text-sm">
+          <span className="text-gray-400 truncate">{subTitle}</span>
         </div>
       )}
     </div>
-    <button
-      className="p-1 text-lg text-gray-300 bg-white rounded-full cursor-pointer hover:text-gray-400 focus:outline-none"
-      onClick={onClose}
-    >
-      <CloseIcon />
-    </button>
+
+    <div className="flex items-center ml-2">
+      {right && <div>{right}</div>}
+
+      <button
+        className="flex items-center h-8 pl-4 text-lg text-gray-300 outline-none cursor-pointer hover:text-gray-400 focus:outline-none transition-all duration-300"
+        onClick={onClose}
+      >
+        <i className="fas fa-times" />
+      </button>
+    </div>
   </div>
 );
 
 export const Drawer: React.FC<IProps> = ({
-  id,
   title,
   subTitle,
+  right,
   visible,
   children,
   footer,
-  level,
-  placement = 'right',
-  width = '768px',
-  shouldResponsive = true,
   onClose,
   afterVisibleChange,
+  placement = 'right',
+  level,
+  width = '768px',
+  id,
+  shouldResponsive = true,
 }) => {
-  const headerHeight = title ? 64 : 0;
+  const windowSize = useWindowSize();
+
+  const headerHeight = title ? 56 : 0;
   const footerHeight = footer ? 64 : 0;
   const maxHeight = `calc(100vh - ${headerHeight + footerHeight}px)`;
-  const windowSize = useWindowSize();
 
   const drawerWidth = useMemo(() => {
     if (!shouldResponsive) {
@@ -86,13 +99,13 @@ export const Drawer: React.FC<IProps> = ({
 
   const props = !level
     ? {
-      getContainer: undefined,
+      getContainer: null,
     }
     : {};
 
   return (
     <ReactDrawer
-      title={title}
+      // title={title}
       open={visible}
       onClose={onClose}
       handler={false}
@@ -108,18 +121,21 @@ export const Drawer: React.FC<IProps> = ({
         <Header
           title={title}
           subTitle={subTitle}
+          right={right}
           onClose={onClose}
           level={level}
         />
       )}
+
       <div
         className="px-6 py-4 overflow-auto overflow-x-hidden"
         style={{ height: maxHeight }}
       >
         {children}
       </div>
+
       {footer && (
-        <div className="flex items-center h-16 px-6 py-4 border-t">
+        <div className="flex items-center h-16 px-6 py-4 overflow-hidden border-t">
           {footer}
         </div>
       )}

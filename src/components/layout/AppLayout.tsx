@@ -46,11 +46,7 @@ export const AppLayout: React.FC<IProps> = ({
 
       <SidebarDesktop menus={menus} menuActiveKey={pageKey} />
 
-      <div
-        className={classNames(
-          'pt-10 transition-all duration-300 md:pl-64 overflow-auto'
-        )}
-      >
+      <div className={classNames('transition-all duration-300 xl:pl-sidebar')}>
         <main className="p-8">{children}</main>
       </div>
     </>

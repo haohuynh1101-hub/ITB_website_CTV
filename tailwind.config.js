@@ -1,5 +1,12 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const plugin = require('tailwindcss/plugin');
+
+const SIDEBAR_WIDTH = 224;
+const SIDEBAR_COMPACT_WIDTH = 56; // ! Can't be changed
+
+const HEADER_HEIGHT = 56;
+
+const toPx = (n) => `${n}px`;
 module.exports = {
   purge: [
     './src/pages/**/*.{js,ts,jsx,tsx}',
@@ -19,8 +26,8 @@ module.exports = {
           100: '#ffd3b2',
           200: '#fab784',
           300: '#f79c55',
-          400: '#FFC671', // Primary
-          500: '#FCAD4E',
+          400: '#f37f26', // Primary
+          500: '#d9660c',
           600: '#aa4f07',
           700: '#7a3704',
           800: '#4a2100',
@@ -30,6 +37,40 @@ module.exports = {
       transitionProperty: {
         height: 'height',
         width: 'width',
+      },
+
+      height: {
+        header: `var(--header-height, ${toPx(HEADER_HEIGHT)})`, // headerHeight
+        content: `calc(100vh - var(--header-height, ${toPx(HEADER_HEIGHT)}))`,
+      },
+
+      width: {
+        'screen-3/4': '75vw',
+        'screen-1/2': '50vw',
+        '1/10': '10%',
+
+        sidebar: toPx(SIDEBAR_WIDTH),
+        'sidebar-compact': toPx(SIDEBAR_COMPACT_WIDTH),
+        'header-company': toPx(SIDEBAR_WIDTH),
+        'header-company-name': toPx(SIDEBAR_WIDTH - 24 - 16), // sidebarWidth - (paddingLeft[16px] + logoWidth[24px])
+
+        'sidebar-space-r': toPx(SIDEBAR_WIDTH + 16), // sidebarWidth + paddingRight[16px]
+        'sidebar-space-r-compact': toPx(SIDEBAR_COMPACT_WIDTH + 16), // sidebarCompactWidth + paddingRight[16px]
+      },
+
+      padding: {
+        sidebar: toPx(SIDEBAR_WIDTH), // paddingLeft: sidebarWidth
+        'sidebar-compact': toPx(SIDEBAR_COMPACT_WIDTH), // paddingLeft: sidebarCompactWidth
+
+        '6px': '6px',
+      },
+
+      inset: {
+        notice: 'var(--notice-height, 0px)',
+        header: `calc(var(--notice-height, 0px) + var(--header-height, ${toPx(
+          HEADER_HEIGHT
+        )}))`, // headerHeight
+        sidebar: toPx(SIDEBAR_WIDTH), // sidebarWidth
       },
     },
   },

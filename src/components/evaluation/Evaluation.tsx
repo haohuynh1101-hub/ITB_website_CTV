@@ -1,106 +1,56 @@
 /* eslint-disable prettier/prettier */
-import classNames from 'classnames';
-import {
-    Avatar,
-    ChevronRightIcon,
-    Collapse,
-    DeleteIcon,
-    EditIcon,
-} from 'components';
-import { useState } from 'react';
+
+import { Avatar, DropDown } from '@/components/elements';
+import { IEvaluation } from '@/redux/reducers/evaluation/types';
+
+import { MenuIcon } from '..';
+import { menus } from './constants';
 
 
-type judgeType = {
-    description: string;
-};
 type IProps = {
-    owner?: string;
-    judge?: judgeType[];
-    isEditor?: boolean;
-    icon?: string;
+    evaluation: IEvaluation
+    onGetDetail: (evaluationId: string) => void
+    onDelete: (evaluationId: string) => void
 };
 export const Evaluate: React.FC<IProps> = ({
-    owner,
-    judge,
-    icon,
-    isEditor,
+    evaluation, onGetDetail, onDelete
 }) => {
-    const [isOpened, setIsOpened] = useState(false);
-    const [evaluate, setEvaluate] = useState<Object[]>([]);
-    const [emoji, setEmoji] = useState(icon || '');
 
-    const handleToggleCollapse = () => {
-        setIsOpened((value) => !value);
-    };
-
-    const onChangeEditor = (description: string, icon: string, idx: number) => {
-        setEvaluate((prev) =>
-            prev.map((p, i) => {
-                if (i === idx) {
-                    return { ...p, description, icon };
-                } else return p;
-            })
-        );
-    };
+    const handleClick = (key?: string) => {
+        if (key === "edit") {
+            if (onGetDetail) {
+                onGetDetail(evaluation._id)
+            }
+        } else {
+            if (!onDelete) {
+                return
+            }
+            onDelete(evaluation._id)
+        }
+    }
     return (
-        <div className="space-y-2">
-            <div className="flex space-x-2">
-                <div
-                    className={classNames({
-                        'flex items-center justify-center w-8 h-8 hover:bg-gray-100 rounded-full cursor-pointer':
-                            true,
-                        'ease-in-out transition-all duration-500': true,
-                        'transform rotate-90': isOpened,
-                    })}
-                    onClick={handleToggleCollapse}
-                    aria-hidden="true"
-                >
-                    <ChevronRightIcon />
+        <div className="flex items-center space-x-2">
+            <div className="items-center flex-1 bg-white border divide-y rounded-md">
+                <div className="flex items-center w-full px-4  py-2   ">
+                    <div className="flex items-center justify-center pr-1 text-center rounded-full w-7 h-7 hover:bg-primary-50">
+                        <span>{evaluation?.icon}</span>
+                    </div>
+
+                    <div className="flex-1">
+                        <p>{evaluation?.content}</p>
+                    </div>
+
+                    <div className="flex items-center font-medium space-x-2">
+                        <Avatar src={evaluation?.user.avatar} fullName={evaluation?.user.fullName} />
+                        <span>{evaluation?.user.fullName}</span>
+                    </div>
                 </div>
-                <Avatar fullName="Nhat Hao" />
-                <span>{owner}</span>
             </div>
-
-            <Collapse isOpened={isOpened}>
-                <div className="items-center bg-white border divide-y rounded-md">
-                    <div className="flex items-center w-full px-4  py-2   ">
-                        <div className="flex items-center justify-center pr-1 text-center rounded-full w-7 h-7 hover:bg-primary-50">
-                            <span>{emoji || '😍'}</span>
-                        </div>
-
-                        <div className="flex-1">
-                            <span>Danh gia ne</span>
-                        </div>
-
-                        <div className="flex items-center space-x-4">
-                            <button>
-                                <EditIcon />
-                            </button>
-                            <button>
-                                <DeleteIcon size={20} />
-                            </button>
-                        </div>
-                    </div>
-                    <div className="flex items-center w-full px-4  py-2   ">
-                        <div className="flex items-center justify-center pr-1 text-center rounded-full w-7 h-7 hover:bg-primary-50">
-                            <span>{emoji || '😍'}</span>
-                        </div>
-
-                        <div className="flex-1">
-                            <span>Danh gia ne</span>
-                        </div>
-
-                        <div className="flex items-center space-x-4">
-                            <button>
-                                <EditIcon />
-                            </button>
-                            <button>
-                                <DeleteIcon size={20} />
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </Collapse>
+            <DropDown placement="right" menus={menus} onClick={handleClick}>
+                <span className="p-2 rounded-full bg-gray-50 hover:bg-gray-100">
+                    <MenuIcon />
+                </span>
+            </DropDown>
         </div>
     );
 };

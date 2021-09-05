@@ -1,2 +1,9 @@
+import dynamic from 'next/dynamic';
+
 export * from './components';
-export * from './EvaluatePersonalContainer';
+export const EvaluatePersonalContainer = dynamic(
+  () => import('./EvaluatePersonalContainer'),
+  {
+    ssr: false,
+  }
+);

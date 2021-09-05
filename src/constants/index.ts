@@ -4,6 +4,8 @@ export const APP_CONSTANTS = {
   AUTH: `AUTH`,
 };
 
+export const ROUTES_NO_AUTH = ['/login'];
+
 export const BREAKPOINTS = {
   // @media (min-width: 0px) { ... }
   xs: 0,

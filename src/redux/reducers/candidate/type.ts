@@ -6,7 +6,7 @@ export interface ICandidate {
   birthday: string;
   province: string;
   phone: string;
-  mssv: string;
+  studentId: string;
   department: string[];
   address: string;
   role: string;

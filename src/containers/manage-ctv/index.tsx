@@ -41,7 +41,7 @@ export const ManageCTVContainer: React.FC = () => {
         email: candidate?.email,
         gender: candidate?.gender,
         birthday: new Date(candidate?.birthday),
-        mssv: candidate?.mssv,
+        studentId: candidate?.studentId,
         major: candidate?.major,
         phone: candidate?.phone,
         address: candidate?.address,
@@ -49,6 +49,7 @@ export const ManageCTVContainer: React.FC = () => {
         department: candidate?.department,
         ability: candidate?.ability,
         role: candidate.role,
+        avatar: candidate.avatar,
       });
       handleCreate();
     }
@@ -61,10 +62,10 @@ export const ManageCTVContainer: React.FC = () => {
   };
   return (
     <>
-      <div className="flex flex-col">
+      <div className="flex flex-col p-8 space-y-8">
         {/* <Statistic data={data} /> */}
 
-        <div className="flex items-center justify-between  mb-4">
+        <div className="flex items-center justify-between  space-x-4">
           <div className="text-lg font-medium">
             <span>Danh sách cộng tác viên</span>
           </div>
@@ -81,7 +82,7 @@ export const ManageCTVContainer: React.FC = () => {
             <div>
               <Input
                 placeholder="Tìm kiếm theo tên CTV"
-                type="primary"
+                type="default"
                 bordered
                 prefix={<SearchIcon />}
               />
@@ -99,14 +100,14 @@ export const ManageCTVContainer: React.FC = () => {
             onGetDetail={handleGetDetail}
           />
         </div>
-
-        <DrawerCTV
-          visible={isOpen}
-          onClose={onClose}
-          defaultValues={candidateSelected}
-          onAfterVisibleChange={handleAfterVisibleChange}
-        />
       </div>
+
+      <DrawerCTV
+        visible={isOpen}
+        onClose={onClose}
+        defaultValues={candidateSelected}
+        onAfterVisibleChange={handleAfterVisibleChange}
+      />
     </>
   );
 };

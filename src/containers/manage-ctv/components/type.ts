@@ -4,7 +4,7 @@ export interface IFormValue {
   email: string;
   birthday: Date;
   phone: string;
-  mssv: string;
+  studentId: string;
   department: string[];
   address: string;
   role: string;

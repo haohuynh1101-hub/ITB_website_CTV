@@ -12,6 +12,7 @@ import NextNprogress from 'nextjs-progressbar';
 import { Provider } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import { store } from 'redux/store';
+
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>

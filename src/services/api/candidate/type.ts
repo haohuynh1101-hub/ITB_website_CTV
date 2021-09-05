@@ -1,8 +1,3 @@
-type TProvince = {
-  id: string;
-  position: string;
-};
-
 export type RequestCandidateBody = {
   email: string;
   password?: string;
@@ -10,7 +5,7 @@ export type RequestCandidateBody = {
   birthday: string;
   province?: string;
   phone: string;
-  mssv: string;
+  studentId: string;
   department: string[];
   address: string;
   role: string;
@@ -18,4 +13,8 @@ export type RequestCandidateBody = {
   avatar?: string;
   ability?: string[];
   linkFB?: string;
+};
+
+export type RequestGetUsersResult = {
+  role?: string;
 };

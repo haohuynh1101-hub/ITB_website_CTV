@@ -1,6 +1,8 @@
 import { AppLayout } from 'components/layout/AppLayout';
 import { menusCTV } from 'constants/menus-ctv';
 import { ManageCTVContainer } from 'containers';
+
+import { withAuthentication } from '@/hoc/withAuthentication';
 const ManageCTVPage = () => {
   return (
     <>
@@ -10,4 +12,4 @@ const ManageCTVPage = () => {
     </>
   );
 };
-export default ManageCTVPage;
+export default withAuthentication(ManageCTVPage, './manage-ctv');

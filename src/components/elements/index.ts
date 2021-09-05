@@ -14,4 +14,5 @@ export * from './modal';
 export * from './select';
 export * from './select-multi';
 export * from './tabs';
+export * from './tooltip';
 export const Editor = dynamic(() => import('./editor'), { ssr: false });

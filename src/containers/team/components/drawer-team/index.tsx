@@ -5,10 +5,10 @@ import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import * as yup from 'yup';
 
-import { FooterForm } from '@/components/drawer-ctv/FooterForm';
 import { convertSimpleToComplexOptions, Drawer, FormItem, Input, ISelectComplexOption, SelectComplex } from '@/components/elements';
+import { FooterForm } from '@/components/footer-drawer/FooterForm';
 import { useAppDispatch, useAppSelector } from '@/hooks';
-import { createTeamAsync, getCandidatesAsync } from '@/redux/reducers';
+import { createTeamAsync, getCandidatesAsync, updateTeamAsync } from '@/redux/reducers';
 import { RequestTeamBody } from '@/services/api';
 
 import { IFormValues } from '../type';
@@ -17,8 +17,10 @@ type IProps = {
     id: string,
     defaultValues: IFormValues
     visible: boolean,
+    //
     afterVisibleChange?: (visible: boolean) => void
     onClose: () => void
+    onAfterVisibleChange: (visible: boolean) => void
 
 }
 
@@ -37,7 +39,7 @@ const schema = yup.object().shape({
         .required('is required'),
 });
 
-const _DrawerTeam: React.FC<IProps> = ({ id, defaultValues, visible, onClose, afterVisibleChange }) => {
+const _DrawerTeam: React.FC<IProps> = ({ id, defaultValues, visible, onClose, onAfterVisibleChange }) => {
     const [loading, setLoading] = useState({ update: false, archive: false });
     const isUpdate = defaultValues?._id
 
@@ -46,14 +48,42 @@ const _DrawerTeam: React.FC<IProps> = ({ id, defaultValues, visible, onClose, af
 
     const { supporters, candidates } = userReducer
 
+    const {
+        handleSubmit,
+        control,
+        formState: { errors },
+        reset
+    } = useForm<IFormValues>({
+        resolver: yupResolver(schema),
+        mode: 'onSubmit',
+        reValidateMode: 'onChange',
+    });
+
     useEffect(() => {
         if (visible && candidates.length < 1) {
-            console.log("true")
             dispatch(getCandidatesAsync())
         }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [visible])
+
+    useEffect(() => {
+        if (defaultValues) {
+            reset({
+                teamName: defaultValues?.teamName,
+                leaderId: defaultValues?.leaderId,
+                memberIds: defaultValues?.memberIds,
+                supporterIds: defaultValues?.supporterIds
+            })
+        } else {
+            reset({
+                teamName: "",
+                leaderId: "",
+                memberIds: [],
+                supporterIds: []
+            })
+        }
+    }, [defaultValues, visible, reset])
 
     const candidatesOptions = candidates.map((user) => ({
         icon: user.avatar,
@@ -75,22 +105,19 @@ const _DrawerTeam: React.FC<IProps> = ({ id, defaultValues, visible, onClose, af
         return convertSimpleToComplexOptions(supportersOptions, true);
     }, [supportersOptions]);
 
-    const {
-        handleSubmit,
-        control,
-        formState: { errors },
-    } = useForm<IFormValues>({
-        resolver: yupResolver(schema),
-        mode: 'onSubmit',
-        reValidateMode: 'onChange',
-    });
+
 
     const onSubmit = async (data: RequestTeamBody) => {
         setLoading((prevState) => ({ ...prevState, update: true }));
 
         try {
             if (isUpdate) {
-                console.log("update")
+                const result = await dispatch(updateTeamAsync({ teamId: defaultValues?._id, data: data }))
+                if (result.meta.requestStatus === 'rejected') {
+                    return toast.error("Cập nhật nhóm không thành công")
+                }
+
+                toast.success("Cập nhật nhóm thành công")
             } else {
                 const result = await dispatch(createTeamAsync({ data }))
                 if (result.meta.requestStatus === "rejected") {
@@ -100,20 +127,19 @@ const _DrawerTeam: React.FC<IProps> = ({ id, defaultValues, visible, onClose, af
 
             }
         } catch (error) {
-            toast.error("Tạo nhóm không thành công")
+            throw new Error("Error")
         } finally {
             setLoading((prevState) => ({ ...prevState, update: false }));
-
             onClose()
         }
     }
     return (
         <Drawer id={id}
-            title={isUpdate ? 'Cập nhật Team' : 'Tạo mới Team'}
+            title={isUpdate ? 'Cập nhật nhóm' : 'Tạo mới nhóm'}
             placement="right"
             visible={visible}
             onClose={onClose}
-            afterVisibleChange={afterVisibleChange}
+            afterVisibleChange={onAfterVisibleChange}
             footer={
                 <FooterForm
                     isUpdate={isUpdate}

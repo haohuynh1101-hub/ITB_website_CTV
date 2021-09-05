@@ -1,9 +1,13 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, FormItem, Input } from 'components';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 import * as yup from 'yup';
 
+import { withAuthentication } from '@/hoc/withAuthentication';
 import { useAppDispatch } from '@/hooks';
 import { loginAsync } from '@/redux/reducers/auth';
 interface FormLoginValue {
@@ -12,11 +16,14 @@ interface FormLoginValue {
 }
 
 const schema = yup.object().shape({
-  email: yup.string().email().required('Email is required'),
+  email: yup.string().email('Email is invalid').required('Email is required'),
   password: yup.string().required('Password is required'),
 });
 
 const Login: React.FC = () => {
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+
   const dispatch = useAppDispatch();
   const {
     control,
@@ -29,13 +36,21 @@ const Login: React.FC = () => {
   });
 
   const onSubmit = async (values: FormLoginValue) => {
+    setLoading(true);
     try {
       const result = await dispatch(
         loginAsync({ email: values.email, password: values.password })
       );
-      console.log(result, '==>result');
+      if (result.meta.requestStatus === 'rejected') {
+        return toast.error('Fail to login');
+      }
+
+      router.push('/');
+      toast.success('Login successfully');
     } catch (error) {
-      console.log(error, '==>error');
+      toast.error('Fail to login');
+    } finally {
+      setLoading(false);
     }
   };
   return (
@@ -59,6 +74,7 @@ const Login: React.FC = () => {
                   placeholder="Your Email"
                   value={value}
                   onChange={onChange}
+                  bordered
                 />
               )}
             />
@@ -78,6 +94,7 @@ const Login: React.FC = () => {
                   value={value}
                   onChange={onChange}
                   htmlType="password"
+                  bordered
                 />
               )}
             />
@@ -88,6 +105,7 @@ const Login: React.FC = () => {
               title="Đăng nhập"
               type="primary"
               htmlType="submit"
+              loading={loading}
               onClick={handleSubmit(onSubmit)}
             />
           </FormItem>
@@ -96,4 +114,4 @@ const Login: React.FC = () => {
     </div>
   );
 };
-export default Login;
+export default withAuthentication(Login, 'login');

@@ -1,14 +1,49 @@
+// {
+//   "presets": [
+//     "next/babel"
+//   ],
+//   "plugins": [
+//     [
+//       "@babel/plugin-proposal-decorators",
+//       {
+//         "legacy": true
+//       }
+//     ],
+//     [
+//       "module-resolver",
+//       {
+//         "root": [
+//           "."
+//         ],
+//         "alias": {
+//           "@": "./src"
+//         }
+//       }
+//     ]
+//   ]
+// }
 {
   "presets": [
-    "next/babel"
-  ],
-  "plugins": [
     [
-      "@babel/plugin-proposal-decorators",
+      "next/babel",
       {
-        "legacy": true
+        "preset-react": {
+          "runtime": "automatic",
+          "importSource": "@emotion/react"
+        }
       }
-    ],
+    ]
+  ],
+  "env": {
+    "production": {
+      "plugins": [
+        "transform-remove-console"
+      ]
+    }
+  },
+  "plugins": [
+    "@emotion/babel-plugin",
+    "babel-plugin-macros",
     [
       "module-resolver",
       {

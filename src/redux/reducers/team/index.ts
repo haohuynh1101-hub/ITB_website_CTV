@@ -3,6 +3,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '@/redux/store';
 import {
   createTeam,
+  getTeamDetail,
   getTeams,
   RequestTeamBody,
   updateTeam,
@@ -14,12 +15,14 @@ export type TeamState = {
   pending: boolean;
   error: boolean;
   teams: ITeam[];
+  team: ITeam;
 };
 
 const initialState: TeamState = {
   pending: false,
   error: false,
   teams: [],
+  team: null,
 };
 
 export const createTeamAsync = createAsyncThunk(
@@ -39,15 +42,19 @@ export const getTeamsAsync = createAsyncThunk('team/get', async () => {
   }
 });
 
+export const getTeamDetailAsync = createAsyncThunk(
+  'team/get/id',
+  async (teamId: string) => {
+    const result = await getTeamDetail(teamId);
+    return result;
+  }
+);
+
 export const updateTeamAsync = createAsyncThunk(
   'team/update',
   async (payload: { teamId: string; data: RequestTeamBody }) => {
-    try {
-      const result = await updateTeam(payload.teamId, payload.data);
-      return result;
-    } catch (error) {
-      console.log(error);
-    }
+    const result = await updateTeam(payload.teamId, payload.data);
+    return result;
   }
 );
 
@@ -58,18 +65,19 @@ export const teamSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(createTeamAsync.pending, (state) => {
-        state.pending = true;
+        state.error = false;
       })
       .addCase(createTeamAsync.fulfilled, (state, action) => {
-        state.pending = false;
-        state.error = false;
-        state.teams.push(action.payload);
+        const result = action.payload;
+
+        if (result) {
+          state.teams.push(action.payload);
+        }
       })
       .addCase(createTeamAsync.rejected, (state) => {
-        state.pending = false;
         state.error = true;
       });
-    //
+    //get all teams
     builder
       .addCase(getTeamsAsync.pending, (state) => {
         state.pending = true;
@@ -79,15 +87,27 @@ export const teamSlice = createSlice({
         state.teams = action.payload;
       })
       .addCase(getTeamsAsync.rejected, (state) => {
-        state.teams = [];
+        state.error = true;
       });
-    //
+    //get team detail
     builder
-      .addCase(updateTeamAsync.pending, (state) => {
+      .addCase(getTeamDetailAsync.pending, (state) => {
         state.pending = true;
       })
-      .addCase(updateTeamAsync.fulfilled, (state, action) => {
+      .addCase(getTeamDetailAsync.fulfilled, (state, action) => {
         state.pending = false;
+        state.team = action.payload;
+      })
+      .addCase(getTeamDetailAsync.rejected, (state) => {
+        state.team = null;
+        state.error = true;
+      });
+    //update team
+    builder
+      .addCase(updateTeamAsync.pending, (state) => {
+        state.error = false;
+      })
+      .addCase(updateTeamAsync.fulfilled, (state, action) => {
         const newTeam = action.payload;
 
         const index = state.teams.findIndex(
@@ -96,7 +116,7 @@ export const teamSlice = createSlice({
         state.teams[index] = newTeam;
       })
       .addCase(updateTeamAsync.rejected, (state) => {
-        state.teams = [];
+        state.error = true;
       });
   },
 });
