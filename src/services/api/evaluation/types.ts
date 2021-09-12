@@ -26,4 +26,5 @@ export type RequestGetEvaluationResult = {
   candidateId?: string;
   teamId?: string;
   round?: string;
+  page?: string;
 };

@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 import { RootState } from '@/redux/store';
+import { url } from '@/services/api/api-config';
 import {
   createCandidate,
   getCandidateDetail,

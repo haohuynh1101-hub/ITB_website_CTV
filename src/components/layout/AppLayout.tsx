@@ -3,6 +3,8 @@ import useWindowSize from 'hooks/useWindowSize';
 import Head from 'next/head';
 import { useState } from 'react';
 
+import { getCSSVar } from '@/utils/cssVar';
+
 import { Header } from './header';
 import { SidebarDesktop, SidebarMobile } from './sidebar';
 import { TMenuItem } from './sidebar/MenuItem';
@@ -25,6 +27,8 @@ export const AppLayout: React.FC<IProps> = ({
   };
   const size = useWindowSize();
   const isMobileSize = size.width < 768;
+  const headerHeight = getCSSVar('header-height', '56px');
+
   return (
     <>
       <Head>
@@ -32,7 +36,7 @@ export const AppLayout: React.FC<IProps> = ({
       </Head>
 
       <Header handleToggleSidebar={handleToggleSidebar} />
-
+      <div style={{ height: headerHeight }}></div>
       {/* {isMobileSize && (
         <>
           <SidebarMobile
@@ -47,7 +51,7 @@ export const AppLayout: React.FC<IProps> = ({
       <SidebarDesktop menus={menus} menuActiveKey={pageKey} />
 
       <div className={classNames('transition-all duration-300 xl:pl-sidebar')}>
-        <main className="p-8">{children}</main>
+        <main>{children}</main>
       </div>
     </>
   );

@@ -62,7 +62,7 @@ export const ManageCTVContainer: React.FC = () => {
   };
   return (
     <>
-      <div className="flex flex-col p-8 space-y-8">
+      <div className="flex flex-col px-8 py-4 space-y-8">
         {/* <Statistic data={data} /> */}
 
         <div className="flex items-center justify-between  space-x-4">

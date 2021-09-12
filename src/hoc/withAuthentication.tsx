@@ -3,15 +3,13 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 
 import { APP_CONSTANTS } from '@/constants';
-import { useAppDispatch, useAppSelector } from '@/hooks';
+import { useAppDispatch } from '@/hooks';
 import { getMeAsync } from '@/redux/reducers';
-import { AuthApi } from '@/services/api/auth';
 
 const withAuthentication = (Component, url?: string) => {
   return (props) => {
     const [isLoading, setIsLoading] = useState(true);
     const dispatch = useAppDispatch();
-    const authReducer = useAppSelector((state) => state.auth.user);
     const router = useRouter();
 
     const fetchMe = async () => {
@@ -49,7 +47,12 @@ const withAuthentication = (Component, url?: string) => {
      * @returns
      */
     const processAuthenticated = async () => {
-      dispatch(getMeAsync());
+      const result = await dispatch(getMeAsync());
+      if (result.meta.requestStatus === 'rejected') {
+        await router.push('/login');
+        setIsLoading(false);
+        return;
+      }
       if (router.pathname == '/login') {
         await router.push('/');
         return;

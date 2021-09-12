@@ -49,6 +49,7 @@ export const updateCandidate = async (
     data: body,
     headers: getHeader(),
   };
+
   const response = await axios.request(createCandidateRequest);
   return response.data;
 };

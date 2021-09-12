@@ -124,8 +124,8 @@ const EvaluatePersonalContainer: React.FC = () => {
   }, [evaluationsReducer.pending, listEvaluation]);
 
   return (
-    <>
-      <div className="py-4 grid grid-cols-12 gap-4">
+    <div>
+      <div className="px-8 py-4 grid grid-cols-12 gap-4">
         <Profile user={candidateReducer} />
 
         <div className="col-span-8">
@@ -137,9 +137,14 @@ const EvaluatePersonalContainer: React.FC = () => {
             />
           </FormItem>
 
-          {renderEvaluations}
+          <div
+            className="overflow-auto"
+            style={{ height: 'calc(100vh - (56px * 6))' }}
+          >
+            {renderEvaluations}
+          </div>
 
-          <div className="w-full mb-4">
+          <div className="sticky w-full mb-4 top-header">
             <EvaluateEditor
               placeholder="Nhận xét ..."
               defaultValue={evaluation}
@@ -152,7 +157,7 @@ const EvaluatePersonalContainer: React.FC = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

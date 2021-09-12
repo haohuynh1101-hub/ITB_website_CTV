@@ -20,6 +20,7 @@ import {
   updateCandidatesAsync,
 } from '@/redux/reducers/candidate';
 import { DriveApi } from '@/services/api';
+import { url } from '@/services/api/api-config';
 import { RequestCandidateBody } from '@/services/api/candidate';
 
 import { ButtonUpload } from '../button-upload';
@@ -32,7 +33,6 @@ function getBase64(img, callback) {
 }
 
 function beforeUpload(file) {
-  console.log(file.size, '==>size');
   const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
   if (!isJpgOrPng) {
     toast.error('You can only upload JPG/PNG file!');
@@ -88,8 +88,7 @@ export const DrawerCTV: React.FC<IProps> = ({
   });
   const [isRendered, setIsRendered] = useState(false);
   const isRenderedForm = useRef(false);
-  const [file, setFile] = useState(defaultValues?.avatar);
-
+  const [file, setFile] = useState(defaultValues && defaultValues.avatar);
   const {
     control,
     handleSubmit,
@@ -174,7 +173,7 @@ export const DrawerCTV: React.FC<IProps> = ({
 
     const body: RequestCandidateBody = {
       ...data,
-      avatar: file,
+      avatar: `${url}/${file}`,
       role: 'CANDIDATE',
       birthday: new Date(data.birthday).toDateString(),
     };
@@ -203,26 +202,15 @@ export const DrawerCTV: React.FC<IProps> = ({
     }
   };
 
-  const uploadImage = async (info) => {
-    if (info.file.status === 'uploading') {
+  const uploadImage = async ({ file }) => {
+    if (file.status === 'uploading') {
       setLoading((prevState) => ({ ...prevState, loadingImg: true }));
 
       return;
     }
-    if (info.file.status === 'done') {
-      // Get this url from response in real world.
-      getBase64(
-        info.file.originFileObj,
-        (imageUrl) => {
-          console.log(imageUrl, '==>imageUrl');
-          setLoading((prevState) => ({ ...prevState, loadingImg: false }));
-          setFile(imageUrl);
-        }
-        // this.setState({
-        //   imageUrl,
-        //   loading: false,
-        // })
-      );
+    if (file.status === 'done') {
+      setLoading((prevState) => ({ ...prevState, loadingImg: false }));
+      setFile(file.response.avatar);
     }
   };
 
@@ -246,12 +234,12 @@ export const DrawerCTV: React.FC<IProps> = ({
                 listType="picture-card"
                 className="avatar-uploader"
                 showUploadList={false}
-                // action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                action={DriveApi.upload}
                 beforeUpload={beforeUpload}
                 onChange={uploadImage}
               >
                 <ButtonUpload
-                  src={file}
+                  src={value}
                   char="ITB"
                   loading={loading.loadingImg}
                 />
