@@ -12,4 +12,5 @@ export interface IEvaluation {
   icon: string;
   content: string;
   round: string;
+  createdAt?: string;
 }

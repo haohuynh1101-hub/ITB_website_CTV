@@ -5,6 +5,7 @@ interface IUser {
 }
 
 export interface IEvaluation {
+  _id?: string;
   candidateId?: string;
   teamId?: string;
   user: IUser;
@@ -26,5 +27,5 @@ export type RequestGetEvaluationResult = {
   candidateId?: string;
   teamId?: string;
   round?: string;
-  page?: string;
+  lastId?: string;
 };

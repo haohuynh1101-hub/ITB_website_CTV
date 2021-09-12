@@ -37,6 +37,7 @@ export const getEvaluationCandidateAsync = createAsyncThunk(
         candidateId: params.candidateId,
         round: params.round,
         teamId: params.teamId,
+        lastId: params.lastId,
       });
       return result;
     } catch (error) {
@@ -83,13 +84,14 @@ export const evaluationSlice = createSlice({
       .addCase(createEvaluationAsync.rejected, (state) => {
         state.error = true;
       });
-    //
+    //GET ALL EVALUATIONS
     builder
       .addCase(getEvaluationCandidateAsync.pending, (state) => {
         state.pending = true;
       })
       .addCase(getEvaluationCandidateAsync.fulfilled, (state, action) => {
         state.pending = false;
+
         state.evaluations = action.payload;
       })
       .addCase(getEvaluationCandidateAsync.rejected, (state) => {

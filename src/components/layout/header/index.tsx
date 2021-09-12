@@ -34,7 +34,7 @@ export const Header: React.FC<IProps> = ({ handleToggleSidebar }) => {
             </button>
           </div>
 
-          <Image src="/LogoITB.png" width={60} height={60} />
+          <Image src="/LogoITB.png" width={40} height={40} />
 
           <div className="hidden text-lg font-medium md:flex">
             <span>ITB Club</span>

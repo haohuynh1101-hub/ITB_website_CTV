@@ -14,7 +14,7 @@ export const EvaluationApi = {
         candidateId: params.candidateId,
         teamId: params.teamId,
         round: params.round,
-        page: params.page,
+        lastId: params.lastId,
       },
       headers: getHeader(),
     };

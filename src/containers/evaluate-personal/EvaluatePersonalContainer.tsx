@@ -1,7 +1,8 @@
 import { Evaluate, EvaluateEditor, IFormValue } from 'components/evaluation';
 import { EVALUATE_INTERVAL_TABS } from 'containers/team/constant';
 import { useRouter } from 'next/router';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 import { FormItem, Tabs } from '@/components/elements';
 import { useAppDispatch, useAppSelector } from '@/hooks';
@@ -13,11 +14,23 @@ import {
   getMeAsync,
   updateEvaluationAsync,
 } from '@/redux/reducers';
-import { RequestEvaluationBody } from '@/services/api';
+import {
+  EvaluationApi,
+  IEvaluation,
+  RequestEvaluationBody,
+} from '@/services/api';
 
 import { Profile } from './components/profile';
 import { Skeleton } from './components/skeleton';
 
+const AlwaysScrollToBottom = () => {
+  const elementRef = useRef(null);
+  useEffect(() => {
+    if (!elementRef || !elementRef.current) return;
+    elementRef.current.scrollIntoView();
+  }, []);
+  return <div ref={elementRef} />;
+};
 const EvaluatePersonalContainer: React.FC = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
@@ -30,6 +43,8 @@ const EvaluatePersonalContainer: React.FC = () => {
 
   const [tab, setTab] = useState<'ROUND_1' | 'ROUND_2' | 'ROUND_3'>('ROUND_1');
   const [evaluation, setEvaluation] = useState<IFormValue>(null);
+  const [initEvaluations, setInitEvaluations] = useState<IEvaluation[]>([]);
+  const [hasMore, setHasMore] = useState(true);
 
   useEffect(() => {
     if (candidateId) {
@@ -37,9 +52,12 @@ const EvaluatePersonalContainer: React.FC = () => {
         dispatch(getCandidateDetailAsync(candidateId)),
         dispatch(
           getEvaluationCandidateAsync({ candidateId: candidateId, round: tab })
-        ),
+        ).then((result) => {
+          setInitEvaluations(result.payload);
+        }),
       ]);
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [candidateId, tab]);
 
@@ -48,7 +66,6 @@ const EvaluatePersonalContainer: React.FC = () => {
       dispatch(getMeAsync());
     }
   }, [dispatch, userReducer]);
-
   const handleTabChange = (tab: 'ROUND_1' | 'ROUND_2' | 'ROUND_3') => {
     setTab(tab);
   };
@@ -97,23 +114,56 @@ const EvaluatePersonalContainer: React.FC = () => {
     return true;
   };
 
+  const handleMoreData = async () => {
+    const lastItemId = initEvaluations.length - 1;
+    const lastId = initEvaluations[lastItemId]._id;
+    setTimeout(async () => {
+      const result: IEvaluation[] = await EvaluationApi.getEvaluationCandidate({
+        candidateId: candidateId,
+        round: tab,
+        lastId: lastId,
+      });
+      if (result.length === 0) {
+        setHasMore(false);
+        setInitEvaluations((old) => [...old, ...[]]);
+
+        return;
+      }
+      setInitEvaluations((old) => [...old, ...result]);
+    }, 1500);
+  };
+
   const renderEvaluations = useMemo(() => {
     if (evaluationsReducer.pending) {
       return <Skeleton />;
     }
     return (
       <>
-        {listEvaluation.length > 0 ? (
-          listEvaluation.map((evaluation, index) => (
-            <FormItem key={index}>
-              <Evaluate
-                evaluation={evaluation}
-                onGetDetail={handleGetDetail}
-                onDelete={handleDelete}
-              />
-            </FormItem>
-          ))
-        ) : (
+        {initEvaluations.length > 0 && (
+          <InfiniteScroll
+            dataLength={initEvaluations.length}
+            next={handleMoreData}
+            hasMore={hasMore}
+            scrollableTarget="scrollableDiv"
+            inverse={true}
+            style={{ display: 'flex', flexDirection: 'column-reverse' }}
+            loader={<div className="loader">Loading ...</div>}
+          >
+            <AlwaysScrollToBottom />
+
+            {initEvaluations.map((evaluation, index) => (
+              <FormItem key={index}>
+                <Evaluate
+                  evaluation={evaluation}
+                  onGetDetail={handleGetDetail}
+                  onDelete={handleDelete}
+                />
+              </FormItem>
+            ))}
+          </InfiniteScroll>
+        )}
+
+        {initEvaluations.length === 0 && (
           <div className="flex items-center p-4 bg-white border rounded-md">
             <span>Hiện chưa có bình luận nào</span>
           </div>
@@ -121,7 +171,7 @@ const EvaluatePersonalContainer: React.FC = () => {
       </>
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [evaluationsReducer.pending, listEvaluation]);
+  }, [evaluationsReducer.pending, initEvaluations]);
 
   return (
     <div>
@@ -138,8 +188,13 @@ const EvaluatePersonalContainer: React.FC = () => {
           </FormItem>
 
           <div
+            id="scrollableDiv"
             className="overflow-auto"
-            style={{ height: 'calc(100vh - (56px * 6))' }}
+            style={{
+              height: 'calc(100vh - (56px * 6))',
+              display: 'flex',
+              flexDirection: 'column-reverse',
+            }}
           >
             {renderEvaluations}
           </div>
