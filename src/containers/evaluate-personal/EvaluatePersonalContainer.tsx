@@ -14,11 +14,7 @@ import {
   getMeAsync,
   updateEvaluationAsync,
 } from '@/redux/reducers';
-import {
-  EvaluationApi,
-  IEvaluation,
-  RequestEvaluationBody,
-} from '@/services/api';
+import { RequestEvaluationBody } from '@/services/api';
 
 import { Profile } from './components/profile';
 import { Skeleton } from './components/skeleton';
@@ -43,7 +39,7 @@ const EvaluatePersonalContainer: React.FC = () => {
 
   const [tab, setTab] = useState<'ROUND_1' | 'ROUND_2' | 'ROUND_3'>('ROUND_1');
   const [evaluation, setEvaluation] = useState<IFormValue>(null);
-  const [initEvaluations, setInitEvaluations] = useState<IEvaluation[]>([]);
+  // const [initEvaluations, setInitEvaluations] = useState<IEvaluation[]>([]);
   const [hasMore, setHasMore] = useState(true);
 
   useEffect(() => {
@@ -52,9 +48,7 @@ const EvaluatePersonalContainer: React.FC = () => {
         dispatch(getCandidateDetailAsync(candidateId)),
         dispatch(
           getEvaluationCandidateAsync({ candidateId: candidateId, round: tab })
-        ).then((result) => {
-          setInitEvaluations(result.payload);
-        }),
+        ),
       ]);
     }
 
@@ -114,24 +108,24 @@ const EvaluatePersonalContainer: React.FC = () => {
     return true;
   };
 
-  const handleMoreData = async () => {
-    const lastItemId = initEvaluations.length - 1;
-    const lastId = initEvaluations[lastItemId]._id;
-    setTimeout(async () => {
-      const result: IEvaluation[] = await EvaluationApi.getEvaluationCandidate({
-        candidateId: candidateId,
-        round: tab,
-        lastId: lastId,
-      });
-      if (result.length === 0) {
-        setHasMore(false);
-        setInitEvaluations((old) => [...old, ...[]]);
+  // const handleMoreData = async () => {
+  //   const lastItemId = initEvaluations.length - 1;
+  //   const lastId = initEvaluations[lastItemId]._id;
+  //   setTimeout(async () => {
+  //     const result: IEvaluation[] = await EvaluationApi.getEvaluationCandidate({
+  //       candidateId: candidateId,
+  //       round: tab,
+  //       lastId: lastId,
+  //     });
+  //     if (result.length === 0) {
+  //       setHasMore(false);
+  //       setInitEvaluations((old) => [...old, ...[]]);
 
-        return;
-      }
-      setInitEvaluations((old) => [...old, ...result]);
-    }, 1500);
-  };
+  //       return;
+  //     }
+  //     setInitEvaluations((old) => [...old, ...result]);
+  //   }, 1500);
+  // };
 
   const renderEvaluations = useMemo(() => {
     if (evaluationsReducer.pending) {
@@ -139,19 +133,18 @@ const EvaluatePersonalContainer: React.FC = () => {
     }
     return (
       <>
-        {initEvaluations.length > 0 && (
-          <InfiniteScroll
-            dataLength={initEvaluations.length}
-            next={handleMoreData}
-            hasMore={hasMore}
-            scrollableTarget="scrollableDiv"
-            inverse={true}
-            style={{ display: 'flex', flexDirection: 'column-reverse' }}
-            loader={<div className="loader">Loading ...</div>}
-          >
+        {listEvaluation.length > 0 && (
+          // <InfiniteScroll
+          //   dataLength={listEvaluation.length}
+          //   next={null}
+          //   hasMore={hasMore}
+          //   scrollableTarget="scrollableDiv"
+          //   loader={<div className="loader">Loading ...</div>}
+          // >
+          <>
             <AlwaysScrollToBottom />
 
-            {initEvaluations.map((evaluation, index) => (
+            {listEvaluation.map((evaluation, index) => (
               <FormItem key={index}>
                 <Evaluate
                   evaluation={evaluation}
@@ -160,10 +153,10 @@ const EvaluatePersonalContainer: React.FC = () => {
                 />
               </FormItem>
             ))}
-          </InfiniteScroll>
+          </>
         )}
 
-        {initEvaluations.length === 0 && (
+        {listEvaluation.length === 0 && (
           <div className="flex items-center p-4 bg-white border rounded-md">
             <span>Hiện chưa có bình luận nào</span>
           </div>
@@ -171,7 +164,7 @@ const EvaluatePersonalContainer: React.FC = () => {
       </>
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [evaluationsReducer.pending, initEvaluations]);
+  }, [evaluationsReducer.pending, listEvaluation]);
 
   return (
     <div>
@@ -187,15 +180,7 @@ const EvaluatePersonalContainer: React.FC = () => {
             />
           </FormItem>
 
-          <div
-            id="scrollableDiv"
-            className="overflow-auto"
-            style={{
-              height: 'calc(100vh - (56px * 6))',
-              display: 'flex',
-              flexDirection: 'column-reverse',
-            }}
-          >
+          <div className="overflow-auto" style={{ height: '100vh - 330px' }}>
             {renderEvaluations}
           </div>
 
