@@ -2,6 +2,7 @@ interface IUser {
   _id: string;
   avatar: string;
   fullName: string;
+  department: string[];
 }
 
 export interface IEvaluation {
@@ -13,4 +14,10 @@ export interface IEvaluation {
   content: string;
   round: string;
   createdAt?: string;
+}
+
+export interface IEvaluationGroup {
+  _id: string;
+  teamLabel: string;
+  evaluations: IEvaluation[];
 }

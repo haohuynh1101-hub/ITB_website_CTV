@@ -35,7 +35,7 @@ export default class MyDocument extends Document {
 
     render() {
         return (
-            <Html lang="en">
+            <Html lang="en" id="windows-os">
                 <Head>
                     {/* Polyfill Intl.NumberFormat, its dependencies & en, vi locale data */}
                     {/* eslint-disable-next-line @next/next/no-sync-scripts */}

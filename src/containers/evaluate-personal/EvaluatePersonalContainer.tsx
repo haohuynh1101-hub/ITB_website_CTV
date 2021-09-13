@@ -1,10 +1,11 @@
 import { Evaluate, EvaluateEditor, IFormValue } from 'components/evaluation';
 import { EVALUATE_INTERVAL_TABS } from 'containers/team/constant';
+import { toArray } from 'lodash';
 import { useRouter } from 'next/router';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import InfiniteScroll from 'react-infinite-scroll-component';
+import slugify from 'slugify';
 
-import { FormItem, Tabs } from '@/components/elements';
+import { FormItem, Tabs, Toggle } from '@/components/elements';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import {
   createEvaluationAsync,
@@ -14,8 +15,11 @@ import {
   getMeAsync,
   updateEvaluationAsync,
 } from '@/redux/reducers';
+import { IEvaluationGroup } from '@/redux/reducers/evaluation/types';
 import { RequestEvaluationBody } from '@/services/api';
+import { getCSSVar } from '@/utils/cssVar';
 
+import { ListEvaluationGroup } from '.';
 import { Profile } from './components/profile';
 import { Skeleton } from './components/skeleton';
 
@@ -39,8 +43,10 @@ const EvaluatePersonalContainer: React.FC = () => {
 
   const [tab, setTab] = useState<'ROUND_1' | 'ROUND_2' | 'ROUND_3'>('ROUND_1');
   const [evaluation, setEvaluation] = useState<IFormValue>(null);
+  const [sortDepartment, setSortDepartment] = useState(false);
   // const [initEvaluations, setInitEvaluations] = useState<IEvaluation[]>([]);
-  const [hasMore, setHasMore] = useState(true);
+  const headerHeight = getCSSVar('header-height', '56px');
+  const sidebarHeight = `calc(100vh - ${headerHeight} - ${headerHeight} - ${headerHeight} - ${headerHeight} - ${headerHeight})`;
 
   useEffect(() => {
     if (candidateId) {
@@ -108,24 +114,19 @@ const EvaluatePersonalContainer: React.FC = () => {
     return true;
   };
 
-  // const handleMoreData = async () => {
-  //   const lastItemId = initEvaluations.length - 1;
-  //   const lastId = initEvaluations[lastItemId]._id;
-  //   setTimeout(async () => {
-  //     const result: IEvaluation[] = await EvaluationApi.getEvaluationCandidate({
-  //       candidateId: candidateId,
-  //       round: tab,
-  //       lastId: lastId,
-  //     });
-  //     if (result.length === 0) {
-  //       setHasMore(false);
-  //       setInitEvaluations((old) => [...old, ...[]]);
-
-  //       return;
-  //     }
-  //     setInitEvaluations((old) => [...old, ...result]);
-  //   }, 1500);
-  // };
+  const data: Record<string, IEvaluationGroup> = {};
+  listEvaluation.map((evaluation) => {
+    const key = 'TEAM_LABEL/' + slugify(evaluation.user.department[0] || '___');
+    if (!data[key]) {
+      data[key] = {
+        _id: key,
+        teamLabel: evaluation.user.department[0] || '___',
+        evaluations: [evaluation],
+      };
+    } else {
+      data[key].evaluations.push(evaluation);
+    }
+  });
 
   const renderEvaluations = useMemo(() => {
     if (evaluationsReducer.pending) {
@@ -134,25 +135,31 @@ const EvaluatePersonalContainer: React.FC = () => {
     return (
       <>
         {listEvaluation.length > 0 && (
-          // <InfiniteScroll
-          //   dataLength={listEvaluation.length}
-          //   next={null}
-          //   hasMore={hasMore}
-          //   scrollableTarget="scrollableDiv"
-          //   loader={<div className="loader">Loading ...</div>}
-          // >
           <>
-            <AlwaysScrollToBottom />
+            {!sortDepartment && (
+              <>
+                {listEvaluation.map((evaluation, index) => (
+                  <FormItem key={index}>
+                    <Evaluate
+                      evaluation={evaluation}
+                      onGetDetail={handleGetDetail}
+                      onDelete={handleDelete}
+                    />
+                  </FormItem>
+                ))}
+              </>
+            )}
 
-            {listEvaluation.map((evaluation, index) => (
-              <FormItem key={index}>
-                <Evaluate
-                  evaluation={evaluation}
-                  onGetDetail={handleGetDetail}
-                  onDelete={handleDelete}
+            {sortDepartment && (
+              <>
+                <ListEvaluationGroup
+                  evaluationsGroup={toArray(data)}
+                  onDelete={null}
+                  onGetDetail={null}
                 />
-              </FormItem>
-            ))}
+              </>
+            )}
+            <AlwaysScrollToBottom />
           </>
         )}
 
@@ -164,23 +171,37 @@ const EvaluatePersonalContainer: React.FC = () => {
       </>
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [evaluationsReducer.pending, listEvaluation]);
+  }, [evaluationsReducer.pending, listEvaluation, sortDepartment]);
 
   return (
     <div>
-      <div className="px-8 py-4 grid grid-cols-12 gap-4">
+      <div className="px-8 py-4  grid grid-cols-12 gap-4">
         <Profile user={candidateReducer} />
 
-        <div className="col-span-8">
-          <FormItem>
-            <Tabs
-              tabs={EVALUATE_INTERVAL_TABS}
-              onChange={handleTabChange}
-              activeKey={tab}
-            />
-          </FormItem>
+        <div className="col-span-9">
+          <div className="flex items-center justify-between">
+            <FormItem>
+              <Tabs
+                tabs={EVALUATE_INTERVAL_TABS}
+                onChange={handleTabChange}
+                activeKey={tab}
+              />
+            </FormItem>
 
-          <div className="overflow-auto" style={{ height: '100vh - 330px' }}>
+            <Toggle
+              title="Lọc theo ban"
+              onChange={setSortDepartment}
+              checked={sortDepartment}
+            />
+          </div>
+
+          <div
+            id="scrollableDiv"
+            className="overflow-auto"
+            style={{
+              height: sidebarHeight,
+            }}
+          >
             {renderEvaluations}
           </div>
 

@@ -26,7 +26,6 @@ export const AppLayout: React.FC<IProps> = ({
     setIsMobile((value) => !value);
   };
   const size = useWindowSize();
-  const isMobileSize = size.width < 768;
   const headerHeight = getCSSVar('header-height', '56px');
 
   return (
