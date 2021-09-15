@@ -18,7 +18,6 @@ type IProps = {
 export const Evaluate: React.FC<IProps> = ({
     evaluation, onGetDetail, onDelete
 }) => {
-
     const handleClick = (key?: string) => {
         if (key === "edit") {
             if (onGetDetail) {
@@ -57,7 +56,7 @@ export const Evaluate: React.FC<IProps> = ({
                 </div>
             </div> */}
             <div>
-                <DropDown placement="right" menus={menus} onClick={handleClick}>
+                <DropDown placement="left" menus={menus} onClick={handleClick}>
                     <span className="p-2 rounded-full bg-gray-50 hover:bg-gray-100">
                         <MenuIcon />
                     </span>

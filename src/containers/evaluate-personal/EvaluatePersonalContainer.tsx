@@ -19,7 +19,7 @@ import { IEvaluationGroup } from '@/redux/reducers/evaluation/types';
 import { RequestEvaluationBody } from '@/services/api';
 import { getCSSVar } from '@/utils/cssVar';
 
-import { ListEvaluationGroup } from '.';
+import { EvaluationGroup } from '.';
 import { Profile } from './components/profile';
 import { Skeleton } from './components/skeleton';
 
@@ -44,6 +44,20 @@ const EvaluatePersonalContainer: React.FC = () => {
   const [tab, setTab] = useState<'ROUND_1' | 'ROUND_2' | 'ROUND_3'>('ROUND_1');
   const [evaluation, setEvaluation] = useState<IFormValue>(null);
   const [sortDepartment, setSortDepartment] = useState(false);
+
+  const data: Record<string, IEvaluationGroup> = {};
+  listEvaluation.map((evaluation) => {
+    const key = 'TEAM_LABEL/' + slugify(evaluation.user.department[0] || '___');
+    if (!data[key]) {
+      data[key] = {
+        _id: key,
+        teamLabel: evaluation.user.department[0] || '___',
+        evaluations: [evaluation],
+      };
+    } else {
+      data[key].evaluations.push(evaluation);
+    }
+  });
   // const [initEvaluations, setInitEvaluations] = useState<IEvaluation[]>([]);
   const headerHeight = getCSSVar('header-height', '56px');
   const sidebarHeight = `calc(100vh - ${headerHeight} - ${headerHeight} - ${headerHeight} - ${headerHeight} - ${headerHeight})`;
@@ -57,9 +71,9 @@ const EvaluatePersonalContainer: React.FC = () => {
         ),
       ]);
     }
-
+    setEvaluation(null);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [candidateId, tab]);
+  }, [candidateId, tab, sortDepartment]);
 
   useEffect(() => {
     if (!userReducer) {
@@ -114,20 +128,6 @@ const EvaluatePersonalContainer: React.FC = () => {
     return true;
   };
 
-  const data: Record<string, IEvaluationGroup> = {};
-  listEvaluation.map((evaluation) => {
-    const key = 'TEAM_LABEL/' + slugify(evaluation.user.department[0] || '___');
-    if (!data[key]) {
-      data[key] = {
-        _id: key,
-        teamLabel: evaluation.user.department[0] || '___',
-        evaluations: [evaluation],
-      };
-    } else {
-      data[key].evaluations.push(evaluation);
-    }
-  });
-
   const renderEvaluations = useMemo(() => {
     if (evaluationsReducer.pending) {
       return <Skeleton />;
@@ -152,11 +152,14 @@ const EvaluatePersonalContainer: React.FC = () => {
 
             {sortDepartment && (
               <>
-                <ListEvaluationGroup
-                  evaluationsGroup={toArray(data)}
-                  onDelete={null}
-                  onGetDetail={null}
-                />
+                {toArray(data).map((evaluationGroup, index) => (
+                  <EvaluationGroup
+                    key={index}
+                    evaluationsGroup={evaluationGroup}
+                    onDelete={handleDelete}
+                    onGetDetail={handleGetDetail}
+                  />
+                ))}
               </>
             )}
             <AlwaysScrollToBottom />
@@ -178,7 +181,7 @@ const EvaluatePersonalContainer: React.FC = () => {
       <div className="px-8 py-4  grid grid-cols-12 gap-4">
         <Profile user={candidateReducer} />
 
-        <div className="col-span-9">
+        <div className="px-8 col-span-9">
           <div className="flex items-center justify-between">
             <FormItem>
               <Tabs
