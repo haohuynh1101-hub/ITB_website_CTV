@@ -1,7 +1,8 @@
 import Link from 'next/link';
 
 import { menusHome } from '@/constants/menus-home';
-export default function Home() {
+import { withAuthentication } from '@/hoc/withAuthentication';
+function Home() {
   return (
     <div
       className="flex items-center justify-center w-screen h-screen"
@@ -18,3 +19,5 @@ export default function Home() {
     </div>
   );
 }
+
+export default withAuthentication(Home, '/');

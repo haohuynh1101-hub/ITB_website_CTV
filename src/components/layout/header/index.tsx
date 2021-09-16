@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import { Avatar, DropDown } from 'components/elements';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 import { ICandidate } from '@/redux/reducers/candidate/type';
 
@@ -22,6 +23,13 @@ const MENUS = [
 ];
 
 export const Header: React.FC<IProps> = ({ user, handleToggleSidebar }) => {
+  const router = useRouter();
+  const handleCLick = (key: string) => {
+    if (key === 'logout') {
+      localStorage.clear();
+      router.push('/login');
+    }
+  };
   return (
     <>
       <header className="fixed z-20 flex items-center justify-between w-screen px-4 bg-white border-b h-header top-notice md:pr-8">
@@ -50,11 +58,7 @@ export const Header: React.FC<IProps> = ({ user, handleToggleSidebar }) => {
             <span>{user?.fullName}</span>
           </div>
 
-          <DropDown
-            menus={MENUS}
-            onClick={() => console.log('')}
-            placement="right"
-          >
+          <DropDown menus={MENUS} onClick={handleCLick} placement="right">
             <ChevronDownIcon size="h-4 w-4" />
           </DropDown>
         </div>
