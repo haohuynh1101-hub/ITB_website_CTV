@@ -13,7 +13,7 @@ export const SidebarDesktop: React.FC<IProps> = ({ menuActiveKey, menus }) => {
   const sidebarHeight = `calc(100vh - ${headerHeight})`;
   return (
     <div
-      className="fixed z-10 pr-4 top-header transition-width duration-300 w-sidebar-space-r"
+      className="fixed z-10 hidden pr-4 md:block top-header transition-width duration-300 w-sidebar-space-r"
       style={{ height: sidebarHeight }}
     >
       <div

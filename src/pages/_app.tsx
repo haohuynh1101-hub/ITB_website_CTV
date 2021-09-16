@@ -1,5 +1,5 @@
-import '../styles/globals.css';
-import '../styles/tailwind.css';
+import 'styles/globals.css';
+import 'styles/tailwind.css';
 import 'rc-drawer/assets/index.css';
 import 'react-datepicker/dist/react-datepicker.css';
 import 'emoji-mart/css/emoji-mart.css';

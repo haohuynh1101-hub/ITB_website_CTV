@@ -52,6 +52,7 @@
     "babel-plugin-macros": "^3.1.0",
     "babel-plugin-module-resolver": "^4.1.0",
     "babel-plugin-tailwind-components": "^0.5.10",
+    "babel-plugin-transform-remove-console": "^6.9.4",
     "classnames": "^2.3.1",
     "dayjs": "^1.10.6",
     "emoji-mart": "^3.0.1",

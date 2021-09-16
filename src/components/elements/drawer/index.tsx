@@ -99,8 +99,8 @@ export const Drawer: React.FC<IProps> = ({
 
   const props = !level
     ? {
-      getContainer: null,
-    }
+        getContainer: null,
+      }
     : {};
 
   return (
