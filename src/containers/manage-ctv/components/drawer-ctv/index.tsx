@@ -19,6 +19,7 @@ import {
   createCandidateAsync,
   updateCandidatesAsync,
 } from '@/redux/reducers/candidate';
+import { url } from '@/services/api/api-config';
 import { RequestCandidateBody } from '@/services/api/candidate';
 
 import { ButtonUpload } from '../button-upload';
@@ -204,7 +205,7 @@ export const DrawerCTV: React.FC<IProps> = ({
     if (file.status === 'done') {
       setLoading((prevState) => ({ ...prevState, loadingImg: false }));
       // setFile(file.response.avatar);
-      setValue('avatar', 'http://localhost:4002/' + file.response.avatar);
+      setValue('avatar', url + file.response.avatar);
     }
   };
 
@@ -228,7 +229,7 @@ export const DrawerCTV: React.FC<IProps> = ({
                 listType="picture-card"
                 className="avatar-uploader"
                 showUploadList={false}
-                action="http://localhost:4002/drive/upload"
+                action={`${url}/drive/upload`}
                 beforeUpload={beforeUpload}
                 onChange={uploadImage}
               >
