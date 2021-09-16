@@ -1,7 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Picker } from 'emoji-mart';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import * as yup from 'yup';
@@ -10,6 +9,7 @@ import { Button, DropDown } from '@/components/elements';
 import { RequestEvaluationBody } from '@/services/api';
 
 import { SmileIcon } from '..';
+import { EMOJI } from './constants';
 
 export type IFormValue = {
     _id: string;
@@ -47,7 +47,6 @@ export const EvaluateEditor: React.FC<IProps> = ({
     onCreate,
     onUpdate,
 }) => {
-    const [emoji, setEmoji] = useState('');
     const isUpdate = defaultValue?._id;
     const { control, handleSubmit, reset } = useForm<IFormValue>({
         resolver: yupResolver(schema),
@@ -107,28 +106,12 @@ export const EvaluateEditor: React.FC<IProps> = ({
                         control={control}
                         name="icon"
                         render={({ field: { value, onChange } }) => (
-                            <DropDown
-                                animation={false}
-                                placement="left"
-                                overlay={
-                                    <Picker
-                                        onClick={(e) => {
-                                            //eslint-disable-next-line
-                                            //@ts-ignore
-                                            const icon = e.native;
-                                            setEmoji(value || icon);
-                                            onChange(icon);
-                                        }}
-                                        showPreview={false}
-                                        useButton
-                                        showSkinTones={false}
-                                    />
-                                }
-                            >
+                            <DropDown customBox='flex' placement='right' menus={EMOJI} onClick={onChange}>
                                 <div className="flex items-center justify-center  text-center rounded-full w-7 h-7 hover:bg-primary-50">
                                     <span>{value || <SmileIcon />}</span>
                                 </div>
                             </DropDown>
+
                         )}
                     />
 

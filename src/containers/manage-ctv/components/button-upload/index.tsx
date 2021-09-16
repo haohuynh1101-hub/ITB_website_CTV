@@ -12,7 +12,6 @@ type IProps = {
     loading: boolean
 }
 export const ButtonUpload: React.FC<IProps> = ({ src, char, loading }) => {
-    console.log(src, "==>src")
     return (
         <div className="relative w-32 h-32 overflow-hidden rounded-md">
             {src ? (
@@ -27,8 +26,8 @@ export const ButtonUpload: React.FC<IProps> = ({ src, char, loading }) => {
                     style={{ backgroundColor: getColorFromText(char) }}
                 >
                     <span className="text-4xl text-white">
-
-                        {char}</span>
+                        {char}
+                    </span>
                 </div>
             )}
 

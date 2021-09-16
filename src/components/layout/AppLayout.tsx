@@ -3,6 +3,7 @@ import useWindowSize from 'hooks/useWindowSize';
 import Head from 'next/head';
 import { useState } from 'react';
 
+import { useAppSelector } from '@/hooks';
 import { getCSSVar } from '@/utils/cssVar';
 
 import { Header } from './header';
@@ -21,7 +22,7 @@ export const AppLayout: React.FC<IProps> = ({
   pageKey,
 }) => {
   const [isMobile, setIsMobile] = useState(false);
-
+  const user = useAppSelector((state) => state.auth.user);
   const handleToggleSidebar = () => {
     setIsMobile((value) => !value);
   };
@@ -34,7 +35,7 @@ export const AppLayout: React.FC<IProps> = ({
         <title>{title}</title>
       </Head>
 
-      <Header handleToggleSidebar={handleToggleSidebar} />
+      <Header handleToggleSidebar={handleToggleSidebar} user={user} />
       <div style={{ height: headerHeight }}></div>
       {/* {isMobileSize && (
         <>

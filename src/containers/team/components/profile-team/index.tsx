@@ -5,8 +5,14 @@ import { ITeam } from "@/redux/reducers/team/type";
 
 type IProps = {
     team: ITeam
+    onGetDetail: (candidateId: string) => void
 }
-export const ProfileTeam: React.FC<IProps> = ({ team }) => {
+export const ProfileTeam: React.FC<IProps> = ({ team, onGetDetail }) => {
+    const handleGetDetail = (id: string) => () => {
+        if (onGetDetail) {
+            onGetDetail(id)
+        }
+    }
     return (
         <div className="p-4 border space-y-4 rounded-md">
             <div className="flex items-center text-base font-medium space-x-2">
@@ -43,7 +49,9 @@ export const ProfileTeam: React.FC<IProps> = ({ team }) => {
                     <div key={index} className="flex items-center space-x-2">
                         <Avatar src={member?.avatar} fullName={member?.fullName} />
                         <span className="flex-1">{member?.fullName}</span>
-                        <EyeIcon />
+                        <button className="focus:outline-none" onClick={handleGetDetail(member?._id)}>
+                            <EyeIcon />
+                        </button>
 
                     </div>
                 ))}

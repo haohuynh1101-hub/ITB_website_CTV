@@ -2,10 +2,15 @@ import { Evaluate, EvaluateEditor, IFormValue } from 'components/evaluation';
 import { EVALUATE_INTERVAL_TABS } from 'containers/team/constant';
 import { toArray } from 'lodash';
 import { useRouter } from 'next/router';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import slugify from 'slugify';
 
-import { FormItem, Tabs, Toggle } from '@/components/elements';
+import {
+  AlwaysScrollToBottom,
+  FormItem,
+  Tabs,
+  Toggle,
+} from '@/components/elements';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import {
   createEvaluationAsync,
@@ -23,14 +28,6 @@ import { EvaluationGroup } from '.';
 import { Profile } from './components/profile';
 import { Skeleton } from './components/skeleton';
 
-const AlwaysScrollToBottom = () => {
-  const elementRef = useRef(null);
-  useEffect(() => {
-    if (!elementRef || !elementRef.current) return;
-    elementRef.current.scrollIntoView();
-  }, []);
-  return <div ref={elementRef} />;
-};
 const EvaluatePersonalContainer: React.FC = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
@@ -77,9 +74,13 @@ const EvaluatePersonalContainer: React.FC = () => {
 
   useEffect(() => {
     if (!userReducer) {
-      dispatch(getMeAsync());
+      dispatch(getMeAsync()).then((result) => {
+        if (result.meta.requestStatus === 'rejected') {
+          router.push('/login');
+        }
+      });
     }
-  }, [dispatch, userReducer]);
+  }, [dispatch, router, userReducer]);
   const handleTabChange = (tab: 'ROUND_1' | 'ROUND_2' | 'ROUND_3') => {
     setTab(tab);
   };

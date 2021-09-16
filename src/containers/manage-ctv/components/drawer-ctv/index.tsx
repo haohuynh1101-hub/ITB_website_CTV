@@ -19,18 +19,11 @@ import {
   createCandidateAsync,
   updateCandidatesAsync,
 } from '@/redux/reducers/candidate';
-import { DriveApi } from '@/services/api';
-import { url } from '@/services/api/api-config';
 import { RequestCandidateBody } from '@/services/api/candidate';
 
 import { ButtonUpload } from '../button-upload';
 import { abilityOptions, departmentOptions } from '../constants';
-import { IFormValue } from '../type';
-function getBase64(img, callback) {
-  const reader = new FileReader();
-  reader.addEventListener('load', () => callback(reader.result));
-  reader.readAsDataURL(img);
-}
+import { IFormCandidateValue } from '../type';
 
 function beforeUpload(file) {
   const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
@@ -46,7 +39,8 @@ function beforeUpload(file) {
 
 type IProps = {
   visible: boolean;
-  defaultValues?: IFormValue;
+  defaultValues?: IFormCandidateValue;
+  disableCreate?: boolean;
   //
   onClose: () => void;
   onCreate?: (body: RequestCandidateBody) => void;
@@ -75,9 +69,10 @@ const schema = yup.object().shape({
 });
 export const DrawerCTV: React.FC<IProps> = ({
   visible,
-  onClose,
   defaultValues,
+  disableCreate = false,
   onAfterVisibleChange,
+  onClose,
 }) => {
   const dispatch = useAppDispatch();
 
@@ -88,14 +83,13 @@ export const DrawerCTV: React.FC<IProps> = ({
   });
   const [isRendered, setIsRendered] = useState(false);
   const isRenderedForm = useRef(false);
-  const [file, setFile] = useState(defaultValues && defaultValues.avatar);
   const {
     control,
     handleSubmit,
     setValue,
     reset,
     formState: { errors },
-  } = useForm<IFormValue>({
+  } = useForm<IFormCandidateValue>({
     resolver: yupResolver(schema),
     mode: 'onSubmit',
     reValidateMode: 'onChange',
@@ -168,12 +162,11 @@ export const DrawerCTV: React.FC<IProps> = ({
     );
   };
 
-  const onSubmit: SubmitHandler<IFormValue> = async (data) => {
+  const onSubmit: SubmitHandler<IFormCandidateValue> = async (data) => {
     delete data._id;
 
     const body: RequestCandidateBody = {
       ...data,
-      avatar: `${url}/${file}`,
       role: 'CANDIDATE',
       birthday: new Date(data.birthday).toDateString(),
     };
@@ -206,11 +199,12 @@ export const DrawerCTV: React.FC<IProps> = ({
     if (file.status === 'uploading') {
       setLoading((prevState) => ({ ...prevState, loadingImg: true }));
 
-      return;
+      // return;
     }
     if (file.status === 'done') {
       setLoading((prevState) => ({ ...prevState, loadingImg: false }));
-      setFile(file.response.avatar);
+      // setFile(file.response.avatar);
+      setValue('avatar', 'http://localhost:4002/' + file.response.avatar);
     }
   };
 
@@ -234,7 +228,7 @@ export const DrawerCTV: React.FC<IProps> = ({
                 listType="picture-card"
                 className="avatar-uploader"
                 showUploadList={false}
-                action={DriveApi.upload}
+                action="http://localhost:4002/drive/upload"
                 beforeUpload={beforeUpload}
                 onChange={uploadImage}
               >
@@ -466,6 +460,7 @@ export const DrawerCTV: React.FC<IProps> = ({
           <FooterForm
             isUpdate={isUpdate}
             isSubmitting={loading.update}
+            disableCreate={disableCreate}
             onClick={handleSubmit(onSubmit)}
           />
         }

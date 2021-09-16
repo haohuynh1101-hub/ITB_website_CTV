@@ -5,11 +5,14 @@ import { Button, DeleteIcon } from 'components';
 type IProps = {
     id?: string;
     isUpdate?: string;
-    onArchive?: () => void;
     isArchiving?: boolean;
     isSubmitting: boolean;
-    onClick: React.MouseEventHandler<HTMLButtonElement>;
     isArchived?: boolean;
+    disableCreate?: boolean
+    //
+    onClick: React.MouseEventHandler<HTMLButtonElement>;
+    onArchive?: () => void;
+
 };
 export const FooterForm: React.FC<IProps> = ({
     id,
@@ -17,6 +20,7 @@ export const FooterForm: React.FC<IProps> = ({
     isArchiving,
     isSubmitting,
     isArchived = false,
+    disableCreate = false,
     //
     onClick,
     onArchive,
@@ -42,8 +46,9 @@ export const FooterForm: React.FC<IProps> = ({
                                 htmlType="button"
                                 icon={<DeleteIcon size={20} />}
                                 title={renderTitleArchive()}
-                                onClick={onArchive}
+                                disabled={disableCreate}
                                 loading={isArchiving}
+                                onClick={onArchive}
                             />
                         </div>
                     </>
@@ -54,6 +59,7 @@ export const FooterForm: React.FC<IProps> = ({
                     title={isUpdate ? "Cập nhât" : "Tạo"}
                     onClick={onClick}
                     loading={isSubmitting}
+                    disabled={disableCreate}
                     block={!isUpdate}
                 />
             </div>

@@ -1,2 +1,2 @@
-export * from './Statistic';
+export * from './drawer-ctv';
 export * from './table';

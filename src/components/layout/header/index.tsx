@@ -1,9 +1,12 @@
 import classNames from 'classnames';
-import { DropDown } from 'components/elements';
+import { Avatar, DropDown } from 'components/elements';
 import Image from 'next/image';
+
+import { ICandidate } from '@/redux/reducers/candidate/type';
 
 import { ChevronDownIcon, MenuToggleIcon } from '../../icons';
 type IProps = {
+  user: ICandidate;
   handleToggleSidebar: () => void;
 };
 
@@ -18,10 +21,10 @@ const MENUS = [
   },
 ];
 
-export const Header: React.FC<IProps> = ({ handleToggleSidebar }) => {
+export const Header: React.FC<IProps> = ({ user, handleToggleSidebar }) => {
   return (
     <>
-      <header className="fixed z-20 flex items-center justify-between w-screen pr-4 bg-white border-b h-header top-notice md:pr-8">
+      <header className="fixed z-20 flex items-center justify-between w-screen px-4 bg-white border-b h-header top-notice md:pr-8">
         <div className="flex items-center space-x-4">
           <div className="flex md:hidden">
             <button
@@ -42,7 +45,10 @@ export const Header: React.FC<IProps> = ({ handleToggleSidebar }) => {
         </div>
 
         <div className="flex items-center font-medium space-x-2">
-          <span>Huynh Nhat Hao</span>
+          <div className="flex items-center space-x-2">
+            <Avatar src={user?.avatar || ''} fullName={user?.fullName} />
+            <span>{user?.fullName}</span>
+          </div>
 
           <DropDown
             menus={MENUS}

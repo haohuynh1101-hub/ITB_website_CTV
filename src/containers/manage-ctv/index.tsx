@@ -9,11 +9,12 @@ import { getCandidatesAsync } from '@/redux/reducers/candidate';
 import { departments } from './components/constants';
 import { DrawerCTV } from './components/drawer-ctv';
 import { TableCTV } from './components/table';
-import { IFormValue } from './components/type';
+import { IFormCandidateValue } from './components/type';
 
 export const ManageCTVContainer: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [candidateSelected, setCandidateSelected] = useState<IFormValue>(null);
+  const [candidateSelected, setCandidateSelected] =
+    useState<IFormCandidateValue>(null);
 
   const dispatch = useAppDispatch();
   const candidateReducer = useAppSelector((state) => state.users);

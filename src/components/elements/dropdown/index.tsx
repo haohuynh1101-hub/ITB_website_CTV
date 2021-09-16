@@ -10,18 +10,20 @@ export type MenuItemDropdown = {
 
 type IProps = {
   menus?: MenuItemDropdown[];
-  onClick?: (key: string) => void;
   placement?: 'left' | 'right';
   overlay?: JSX.Element;
   animation?: boolean;
+  customBox?: string;
+  onClick?: (key: string) => void;
 };
 export const DropDown: React.FC<IProps> = ({
   menus = [],
-  onClick,
   placement = 'left',
   overlay,
   animation = true,
   children,
+  customBox,
+  onClick,
 }) => {
   const transition = animation
     ? {
@@ -32,7 +34,7 @@ export const DropDown: React.FC<IProps> = ({
       leaveFrom: 'transform opacity-100 scale-100',
       leaveTo: 'transform opacity-0 scale-95',
     }
-    : { };
+    : {};
 
   return (
     <Menu as="div" className="relative inline-block text-left">
@@ -56,7 +58,7 @@ export const DropDown: React.FC<IProps> = ({
               {overlay ? (
                 <Menu.Item>{overlay}</Menu.Item>
               ) : (
-                <div className="py-1">
+                <div className={classNames('py-1', customBox)}>
                   {menus.map((m) => {
                     return (
                       <Menu.Item

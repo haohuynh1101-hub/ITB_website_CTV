@@ -1,12 +1,4 @@
-export interface ICandidate {
-  _id: string;
-  email: string;
-  fullName: string;
-  department: string[];
-  address: string;
-  gender: 'Nam' | 'Nữ';
-  avatar?: string;
-}
+import { ICandidate } from '../candidate/type';
 
 export interface ITeam {
   _id: string;

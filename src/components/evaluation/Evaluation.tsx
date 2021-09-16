@@ -36,25 +36,16 @@ export const Evaluate: React.FC<IProps> = ({
                 <Avatar src={evaluation?.user.avatar} fullName={evaluation?.user.fullName} />
                 <div className="flex flex-col p-2 bg-gray-100 space-y-2 rounded-md">
                     <span className="font-medium">{evaluation?.user.fullName}</span>
-                    <span>{evaluation?.content}</span>
+                    <div className="flex items-center space-x-2">
+                        {evaluation?.icon &&
+                            <span>{evaluation?.icon}</span>
+                        }
+
+                        <span>{evaluation?.content}</span>
+                    </div>
                 </div>
             </div>
-            {/* <div className="items-center flex-1 bg-white border divide-y rounded-md">
-                <div className="flex items-center w-full px-4  py-2   ">
-                    <div className="flex items-center justify-center pr-1 text-center rounded-full w-7 h-7 hover:bg-primary-50">
-                        <span>{evaluation?.icon}</span>
-                    </div>
 
-                    <div className="flex-1">
-                        <p>{evaluation?.content}</p>
-                    </div>
-
-                    <div className="flex items-center font-medium space-x-2">
-                        <Avatar src={evaluation?.user.avatar} fullName={evaluation?.user.fullName} />
-                        <span>{evaluation?.user.fullName}</span>
-                    </div>
-                </div>
-            </div> */}
             <div>
                 <DropDown placement="left" menus={menus} onClick={handleClick}>
                     <span className="p-2 rounded-full bg-gray-50 hover:bg-gray-100">

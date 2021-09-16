@@ -5,7 +5,7 @@ import { apiRequest, url } from '../api-config';
 export const DriveApi = {
   async upload() {
     const uploadRequest: apiRequest = {
-      url: `${url}/test-upload`,
+      url: `${url}/drive/upload`,
       method: 'POST',
       baseUrl: url,
     };

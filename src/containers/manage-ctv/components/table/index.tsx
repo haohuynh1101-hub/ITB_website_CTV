@@ -1,9 +1,10 @@
 import { useRouter } from 'next/router';
 
 import { Avatar, Tooltip } from '@/components/elements';
-import { getColorFromText } from '@/components/elements/avatar/utils';
 import { EditIcon, EvaluateIcon } from '@/components/icons';
 import { ICandidate } from '@/redux/reducers/candidate/type';
+
+import { getColorFromDepartment } from '../utils';
 
 type IProps = {
   users?: ICandidate[];
@@ -74,8 +75,8 @@ export const TableCTV: React.FC<IProps> = ({ users = [], onGetDetail }) => {
                         key={index}
                         className="p-1 mx-1 my-1 text-sm font-medium text-center border rounded-md"
                         style={{
-                          color: getColorFromText(value),
-                          borderColor: getColorFromText(value),
+                          color: getColorFromDepartment(value),
+                          borderColor: getColorFromDepartment(value),
                         }}
                       >
                         {value}
