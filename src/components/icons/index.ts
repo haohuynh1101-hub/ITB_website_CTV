@@ -1,4 +1,5 @@
 export * from './AddressIcon';
+export * from './BackIcon';
 export * from './CardIcon';
 export * from './ChevronDownIcon';
 export * from './ChevronRightIcon';
@@ -8,6 +9,7 @@ export * from './EditIcon';
 export * from './EvaluateIcon';
 export * from './EyeIcon';
 export * from './FacebookIcon';
+export * from './HomeIcon';
 export * from './icon-ctv';
 export * from './MenuIcon';
 export * from './MenuToggleIcon';

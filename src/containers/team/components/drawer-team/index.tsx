@@ -151,7 +151,7 @@ const _DrawerTeam: React.FC<IProps> = ({
   return (
     <Drawer
       id={id}
-      title={isUpdate ? 'Cập nhật nhóm' : 'Tạo mới nhóm'}
+      title={isUpdate ? 'Cập nhật nhóm' : 'Tạo nhóm'}
       placement="right"
       visible={visible}
       onClose={onClose}

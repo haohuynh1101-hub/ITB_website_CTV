@@ -1,3 +1,6 @@
+import { BackIcon } from '@/components';
+
+import { MenuDivider } from './MenuDivider';
 import { TMenuItem } from './MenuItem';
 import { MenuItem } from './MenuItem';
 type IProps = {
@@ -21,6 +24,17 @@ export const SidebarContent: React.FC<IProps> = ({ menus, menuActiveKey }) => {
             />
           );
         })}
+      </ul>
+
+      <ul className="list-none">
+        <MenuDivider isMargin={false} />
+        <MenuItem
+          key="BackToHome"
+          icon={<BackIcon />}
+          name="Quay lại"
+          href="/"
+          isActive={menuActiveKey === 'BackToHome'}
+        />
       </ul>
     </div>
   );

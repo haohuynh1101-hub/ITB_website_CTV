@@ -38,6 +38,8 @@ function beforeUpload(file) {
   return isJpgOrPng && isLt2M;
 }
 
+const note = 'Thông tin cần yêu cầu';
+
 type IProps = {
   visible: boolean;
   defaultValues?: IFormCandidateValue;
@@ -49,24 +51,16 @@ type IProps = {
 };
 
 const schema = yup.object().shape({
-  fullName: yup.string().required('is required'),
-  email: yup.string().email().required('is required'),
-  birthday: yup.string().required('is required'),
-  phone: yup.string().required('is required'),
-  studentId: yup.string().required('is required'),
-  department: yup
-    .array()
-    .of(yup.string())
-    .min(1, 'is required')
-    .required('is required'),
-  address: yup.string().required('is required'),
-  gender: yup.string().required('is required'),
-  ability: yup
-    .array()
-    .of(yup.string())
-    .min(1, 'is required')
-    .required('is required'),
-  major: yup.string().required('is required'),
+  fullName: yup.string().required(note),
+  email: yup.string().email('Email chưa hợp lệ').required(note),
+  birthday: yup.string().required(note),
+  phone: yup.string().required(note),
+  studentId: yup.string().required(note),
+  department: yup.array().of(yup.string()).min(1, note).required(note),
+  address: yup.string().required(note),
+  gender: yup.string().required(note),
+  ability: yup.array().of(yup.string()).min(1, note).required(note),
+  major: yup.string().required(note),
 });
 export const DrawerCTV: React.FC<IProps> = ({
   visible,

@@ -64,7 +64,7 @@ export const TeamContainer = () => {
               prefix={<SearchIcon />}
             />
             <Button
-              title="Ghép nhóm"
+              title="Tạo nhóm"
               type="primary"
               block={false}
               onClick={handleOpen}

@@ -23,11 +23,11 @@ export const Profile: React.FC<IProps> = ({ user }) => {
           <span>{user?.fullName}</span>
         </div>
 
-        <div className="text-center">
+        <div className="text-base font-medium text-center">
           <span>{user?.email}</span>
         </div>
 
-        <div className="p-4 bg-white border rounded-md space-y-3">
+        <div className="p-4 bg-white border rounded-md space-y-4">
           <h4 className="mb-2 text-base font-medium">Giới thiệu</h4>
 
           <div className="space-y-2">
@@ -73,8 +73,8 @@ export const Profile: React.FC<IProps> = ({ user }) => {
           ))}
         </div>
 
-        <div className="flex items-center w-1/2">
-          <Button title="Xem Form" type="primary" onClick={null} />
+        <div className="flex items-center w-full">
+          <Button title="Xem Form" type="primary" block onClick={null} />
         </div>
       </div>
     </div>

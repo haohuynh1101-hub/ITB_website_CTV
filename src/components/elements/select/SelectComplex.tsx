@@ -86,8 +86,8 @@ const customStyles: Partial<
       borderColor: state.isFocused
         ? state.theme.colors.primary
         : state.isDisabled
-          ? '#e5e7eb'
-          : 'transparent',
+        ? '#e5e7eb'
+        : 'transparent',
       boxShadow: 'none',
       backgroundColor: '#f3f4f6', // gray-50
 

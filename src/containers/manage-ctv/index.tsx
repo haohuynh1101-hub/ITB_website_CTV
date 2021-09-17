@@ -5,6 +5,7 @@ import { useState } from 'react';
 
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import { getCandidatesAsync } from '@/redux/reducers/candidate';
+import { nonAccentVietnamese } from '@/utils/string';
 
 import { departments } from './components/constants';
 import { DrawerCTV } from './components/drawer-ctv';
@@ -15,14 +16,31 @@ export const ManageCTVContainer: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [candidateSelected, setCandidateSelected] =
     useState<IFormCandidateValue>(null);
+  const [filter, setFilter] = useState({ search: '' });
+  const [departmentSelected, setDepartmentSelected] = useState('');
 
   const dispatch = useAppDispatch();
   const candidateReducer = useAppSelector((state) => state.users);
   const { candidates } = candidateReducer;
+
   useEffect(() => {
     dispatch(getCandidatesAsync());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const getCandidates = () => {
+    let { candidates } = candidateReducer;
+
+    if (filter.search) {
+      candidates = candidates.filter(
+        (candidate) =>
+          nonAccentVietnamese(candidate.fullName + candidate.email).search(
+            nonAccentVietnamese(filter.search)
+          ) >= 0
+      );
+    }
+    return candidates;
+  };
 
   const onClose = () => {
     setIsOpen(false);
@@ -61,12 +79,16 @@ export const ManageCTVContainer: React.FC = () => {
       setCandidateSelected(null);
     }
   };
+
+  const handleDepartment = (value: string) => {
+    setDepartmentSelected(value);
+  };
+
+  const users = getCandidates();
   return (
     <>
-      <div className="flex flex-col px-8 py-4 space-y-8">
-        {/* <Statistic data={data} /> */}
-
-        <div className="flex items-center justify-between  space-x-4">
+      <div className="flex flex-col  space-y-8">
+        <div className="flex items-center justify-between px-8 py-4 bg-white border-b space-x-4">
           <div className="text-lg font-medium">
             <span>Danh sách cộng tác viên</span>
           </div>
@@ -75,7 +97,8 @@ export const ManageCTVContainer: React.FC = () => {
             <div className="w-40">
               <SelectControlled
                 options={departments}
-                onChange={() => console.log('')}
+                value={departmentSelected}
+                onChange={handleDepartment}
                 placeholder="Ban"
               />
             </div>
@@ -83,8 +106,12 @@ export const ManageCTVContainer: React.FC = () => {
             <div>
               <Input
                 placeholder="Tìm kiếm theo tên CTV"
-                type="default"
+                type="primary"
                 bordered
+                value={filter.search}
+                onChange={(e) =>
+                  setFilter((prev) => ({ ...prev, search: e.target.value }))
+                }
                 prefix={<SearchIcon />}
               />
             </div>
@@ -95,11 +122,8 @@ export const ManageCTVContainer: React.FC = () => {
           </div>
         </div>
 
-        <div className="bg-white border rounded-md">
-          <TableCTV
-            users={candidateReducer.candidates}
-            onGetDetail={handleGetDetail}
-          />
+        <div className="mx-8 bg-white border rounded-md">
+          <TableCTV users={users} onGetDetail={handleGetDetail} />
         </div>
       </div>
 

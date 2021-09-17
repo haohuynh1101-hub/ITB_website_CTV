@@ -1,6 +1,12 @@
-import { PeopleTeamIcon } from 'components';
+import { HomeIcon, PeopleTeamIcon } from 'components';
 
 export const menusHome = [
+  {
+    key: 'ManageHuman',
+    name: 'Quản lý nội bộ',
+    icon: <HomeIcon size={40} />,
+    href: '/manage-human',
+  },
   {
     key: 'ManageCTV',
     name: 'Quản lý CTV',

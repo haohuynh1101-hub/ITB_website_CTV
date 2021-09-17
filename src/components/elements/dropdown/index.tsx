@@ -4,7 +4,7 @@ import { Fragment } from 'react';
 
 export type MenuItemDropdown = {
   value: string;
-  name: string;
+  name: string | JSX.Element;
   prefix?: JSX.Element;
 };
 

@@ -60,11 +60,7 @@ const Login: React.FC = () => {
           <Image src="/LogoITB.png" width={60} height={60} />
           <span>ITB Club</span>
         </div>
-        <form
-          className=""
-          style={{ width: '540px' }}
-          onSubmit={handleSubmit(onSubmit)}
-        >
+        <form className="form-login" onSubmit={handleSubmit(onSubmit)}>
           <FormItem label="Email" isRequired error={errors?.email?.message}>
             <Controller
               control={control}
@@ -105,6 +101,7 @@ const Login: React.FC = () => {
               title="Đăng nhập"
               type="primary"
               htmlType="submit"
+              block
               loading={loading}
               onClick={handleSubmit(onSubmit)}
             />

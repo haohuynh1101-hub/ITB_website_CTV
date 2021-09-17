@@ -1,11 +1,11 @@
 import 'styles/globals.css';
 import 'styles/tailwind.css';
+import 'styles/scrollbar.css';
 import 'rc-drawer/assets/index.css';
 import 'react-datepicker/dist/react-datepicker.css';
 import 'emoji-mart/css/emoji-mart.css';
 import '@hassanmojab/react-modern-calendar-datepicker/lib/DatePicker.css';
 import 'react-toastify/dist/ReactToastify.css';
-import 'styles/scrollbar.css';
 
 import { AppProps } from 'next/app';
 import Head from 'next/head';
