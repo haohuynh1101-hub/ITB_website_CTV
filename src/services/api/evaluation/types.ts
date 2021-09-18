@@ -18,9 +18,10 @@ export type RequestEvaluationBody = {
   candidateId?: string;
   teamId?: string;
   userId: string;
-  icon: string;
-  content: string;
+  icon?: string;
+  content?: string;
   round: string;
+  score?: string;
 };
 
 export type RequestGetEvaluationResult = {

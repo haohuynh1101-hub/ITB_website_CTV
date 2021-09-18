@@ -15,4 +15,5 @@ export interface ICandidate {
   ability: string[];
   linkFB?: string;
   major: string;
+  isArchived?: boolean;
 }

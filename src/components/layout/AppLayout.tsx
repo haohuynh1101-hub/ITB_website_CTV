@@ -38,7 +38,7 @@ export const AppLayout: React.FC<IProps> = ({
 
       <Header handleToggleSidebar={handleToggleSidebar} user={user} />
       <div style={{ height: headerHeight }}></div>
-      {isMobileSize && (
+      {/* {isMobileSize && (
         <>
           <SidebarMobile
             menuActiveKey={pageKey}
@@ -47,7 +47,7 @@ export const AppLayout: React.FC<IProps> = ({
             onClose={handleToggleSidebar}
           />
         </>
-      )}
+      )} */}
 
       <SidebarDesktop menus={menus} menuActiveKey={pageKey} />
 

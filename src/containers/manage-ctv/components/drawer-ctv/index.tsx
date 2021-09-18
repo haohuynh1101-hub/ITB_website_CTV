@@ -203,6 +203,40 @@ export const DrawerCTV: React.FC<IProps> = ({
     }
   };
 
+  const handleArchive = async () => {
+    const isArchived = defaultValues?.isArchived;
+    try {
+      const confirm = window.confirm(
+        `Bạn có muốn ${isArchived ? 'bỏ lưu trữ' : 'lưu trữ'} không?`
+      );
+      if (!confirm) {
+        return;
+      }
+      setLoading((prevState) => ({ ...prevState, archive: true }));
+
+      const result = await dispatch(
+        updateCandidatesAsync({
+          candidateId: defaultValues?._id,
+          data: { isArchived: !isArchived },
+        })
+      );
+
+      if (result.meta.requestStatus === 'rejected') {
+        toast.error(
+          `${isArchived ? 'Bỏ lưu trữ' : 'Lưu trữ'} không thành công`
+        );
+      }
+
+      toast.success(`${isArchived ? 'Bỏ lưu trữ' : 'Lưu trữ'}  thành công`);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading((prevState) => ({ ...prevState, archive: false }));
+
+      onClose();
+    }
+  };
+
   const renderForm = () => {
     if (!isRendered) {
       return null;
@@ -455,8 +489,11 @@ export const DrawerCTV: React.FC<IProps> = ({
           <FooterForm
             isUpdate={isUpdate}
             isSubmitting={loading.update}
+            isArchived={defaultValues?.isArchived}
+            isArchiving={loading.archive}
             disableCreate={disableCreate}
             onClick={handleSubmit(onSubmit)}
+            onArchive={handleArchive}
           />
         }
         onClose={onClose}

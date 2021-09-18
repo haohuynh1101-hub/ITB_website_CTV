@@ -32,3 +32,14 @@ export const EMOJI: MenuItemDropdown[] = [
     name: '😓',
   },
 ];
+
+export const TYPE_EVALUATION = [
+  {
+    name: 'Điểm',
+    value: 'SCORE',
+  },
+  {
+    name: 'Nhận xét',
+    value: 'EVALUATION',
+  },
+];

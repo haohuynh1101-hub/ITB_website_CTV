@@ -25,8 +25,9 @@ export const FooterForm: React.FC<IProps> = ({
   onArchive,
 }) => {
   const renderTitleArchive = () => {
-    return isArchived ? 'unarchive' : 'archive';
+    return isArchived ? 'Bỏ lưu trữ' : 'Lưu trữ';
   };
+  console.log(isArchived, "==>isarchive")
   return (
     <>
       <div

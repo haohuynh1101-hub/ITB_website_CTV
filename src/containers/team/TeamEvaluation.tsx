@@ -43,7 +43,7 @@ const TeamEvaluationContainer = () => {
   const [sortDepartment, setSortDepartment] = useState(false);
   const [visible, setVisible] = useState(false);
 
-  const [tab, setTab] = useState<'ROUND_1' | 'ROUND_2' | 'ROUND_3'>('ROUND_1');
+  const [tab, setTab] = useState<'ROUND_2' | 'ROUND_3'>('ROUND_2');
   const [evaluation, setEvaluation] = useState<IFormValue>(null);
   const [candidateSelected, setCandidateSelected] =
     useState<IFormCandidateValue>(null);
@@ -84,7 +84,7 @@ const TeamEvaluationContainer = () => {
     }
   }, [dispatch, router, userReducer]);
 
-  const handleTabChange = (tab: 'ROUND_1' | 'ROUND_2' | 'ROUND_3') => {
+  const handleTabChange = (tab: 'ROUND_2' | 'ROUND_3') => {
     setTab(tab);
   };
 

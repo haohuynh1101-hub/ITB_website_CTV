@@ -1,15 +1,14 @@
 /* eslint-disable prettier/prettier */
 import { yupResolver } from '@hookform/resolvers/yup';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import * as yup from 'yup';
 
-import { Button, DropDown } from '@/components/elements';
+import { Button, SelectControlled } from '@/components/elements';
 import { RequestEvaluationBody } from '@/services/api';
 
-import { SmileIcon } from '..';
-import { EMOJI } from './constants';
+import { TYPE_EVALUATION } from './constants';
 
 export type IFormValue = {
   _id: string;
@@ -47,6 +46,8 @@ export const EvaluateEditor: React.FC<IProps> = ({
   onCreate,
   onUpdate,
 }) => {
+
+  const [type, setType] = useState("EVALUATION")
   const isUpdate = defaultValue?._id;
   const { control, handleSubmit, reset } = useForm<IFormValue>({
     resolver: yupResolver(schema),
@@ -71,14 +72,25 @@ export const EvaluateEditor: React.FC<IProps> = ({
   }, [defaultValue]);
 
   const onSubmit = async (data: IFormValue) => {
-    const body: RequestEvaluationBody = {
-      content: data.content,
-      icon: data.icon,
-      candidateId: candidateId || '',
-      teamId: teamId || '',
-      userId: userId,
-      round: round,
-    };
+    let body: RequestEvaluationBody
+    if (type === "SCORE") {
+      body = {
+        score: data.content,
+        content: data.content,
+        candidateId: candidateId || '',
+        teamId: teamId || '',
+        userId: userId,
+        round: round,
+      }
+    } else {
+      body = {
+        content: data.content,
+        candidateId: candidateId || '',
+        teamId: teamId || '',
+        userId: userId,
+        round: round,
+      }
+    }
     try {
       if (isUpdate) {
         onUpdate(defaultValue?._id, body);
@@ -98,26 +110,15 @@ export const EvaluateEditor: React.FC<IProps> = ({
       });
     }
   };
+
+  const handleChangeType = (value: string) => {
+    setType(value)
+  }
   return (
     <React.Fragment>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex items-center text-base font-semibold space-x-4 space-y-2">
-          <Controller
-            control={control}
-            name="icon"
-            render={({ field: { value, onChange } }) => (
-              <DropDown
-                customBox="flex"
-                placement="right"
-                menus={EMOJI}
-                onClick={onChange}
-              >
-                <div className="flex items-center justify-center  text-center rounded-full w-7 h-7 hover:bg-primary-50">
-                  <span>{value || <SmileIcon />}</span>
-                </div>
-              </DropDown>
-            )}
-          />
+          <SelectControlled border size="small" options={TYPE_EVALUATION} value={type} onChange={handleChangeType} />
 
           <Controller
             control={control}
@@ -144,47 +145,5 @@ export const EvaluateEditor: React.FC<IProps> = ({
     </React.Fragment>
   );
 
-  // return (
-  //     <React.Fragment>
-  //         <div className="flex items-center text-base font-semibold space-x-4 space-y-2">
-  //             <DropDown
-  //                 animation={false}
-  //                 placement="left"
-  //                 overlay={
-  //                     <Picker
-  //                         onClick={(e) => {
-  //                             //eslint-disable-next-line
-  //                             //@ts-ignore
-  //                             const icon = e.native;
-  //                             setEmoji(icon);
-  //                             onChangeEditor(description || '', icon);
-  //                         }}
-  //                         showPreview={false}
-  //                         useButton
-  //                         showSkinTones={false}
-  //                     />
-  //                 }
-  //             >
-  //                 <div className="flex items-center justify-center  text-center rounded-full w-7 h-7 hover:bg-primary-50">
-  //                     <span>{icon ||
-  //                         <SmileIcon />
-  //                     }</span>
 
-  //                 </div>
-  //             </DropDown>
-  //             <div className="w-full h-full">
-  //                 <textarea
-  //                     className="w-full h-20 px-4 py-2 border focus:outline-none max-h-40"
-  //                     value={description}
-  //                     onChange={(e) => onChangeEditor(e.target.value, emoji)}
-  //                     placeholder={placeholder}
-  //                 />
-  //             </div>
-
-  //             <div>
-  //                 <Button title="Lưu" type="primary" onClick={onSubmit} disabled={!description} />
-  //             </div>
-  //         </div>
-  //     </React.Fragment>
-  // );
 };

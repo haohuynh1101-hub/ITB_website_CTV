@@ -7,6 +7,7 @@ import {
   getCandidateDetail,
   getCandidates,
   RequestCandidateBody,
+  RequestParamsUser,
   updateCandidate,
 } from '@/services/api/candidate';
 
@@ -38,8 +39,8 @@ export const createCandidateAsync = createAsyncThunk(
 
 export const getCandidatesAsync = createAsyncThunk(
   'candidate/get',
-  async () => {
-    const result = await getCandidates();
+  async (params?: RequestParamsUser) => {
+    const result = await getCandidates(params);
     return result;
   }
 );
@@ -55,7 +56,9 @@ export const getCandidateDetailAsync = createAsyncThunk(
 export const updateCandidatesAsync = createAsyncThunk(
   'candidate/update',
   async (payload: { candidateId: string; data: RequestCandidateBody }) => {
-    const result = await updateCandidate(payload.candidateId, payload.data);
+    const result = await updateCandidate(payload.candidateId, {
+      ...payload.data,
+    });
     return result;
   }
 );
@@ -88,6 +91,7 @@ export const candidateSlice = createSlice({
       .addCase(getCandidatesAsync.fulfilled, (state, action) => {
         state.pending = false;
         const users = action.payload;
+
         state.candidates = users.filter((user) => user.role === 'CANDIDATE');
         state.supporters = users.filter((user) => user.role === 'SUPPORTER');
       })

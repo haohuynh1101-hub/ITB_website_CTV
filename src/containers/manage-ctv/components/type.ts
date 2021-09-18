@@ -13,4 +13,5 @@ export interface IFormCandidateValue {
   major?: string;
   ability: string[];
   linkFB?: string;
+  isArchived?: boolean;
 }

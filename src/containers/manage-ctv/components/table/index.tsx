@@ -29,12 +29,13 @@ export const TableCTV: React.FC<IProps> = ({ users = [], onGetDetail }) => {
       <table className="w-full table-auto" style={{ minWidth: '768px' }}>
         <thead>
           <tr className=" border-b">
-            <th className="w-24 p-4 font-medium text-left">STT</th>
+            <th className="w-16 p-4 font-medium text-left">STT</th>
 
-            <th className="p-4 font-medium text-left w-72">Họ và tên</th>
+            <th className="font-medium text-left w-72">Họ và tên</th>
             <th className="w-64 font-medium text-left">Email</th>
-            <th className="w-40 p-4 font-medium text-left">Ban ứng tuyển</th>
-            <th className="w-40 p-4 font-medium text-left">Hoạt động</th>
+            <th className="w-40 font-medium text-left">Ban ứng tuyển</th>
+            <th className="w-24 font-medium text-left">Điểm</th>
+            <th className="w-40 font-medium text-left">Hoạt động</th>
           </tr>
         </thead>
 
@@ -57,7 +58,7 @@ export const TableCTV: React.FC<IProps> = ({ users = [], onGetDetail }) => {
               >
                 <td className="w-16 p-4 text-left md:w-32">{index + 1}</td>
 
-                <td className="p-4 w-72">
+                <td className="w-72">
                   <div className="flex flex-col space-y-2">
                     <div className="flex items-center font-medium space-x-2">
                       <Avatar fullName={user?.fullName} src={user?.avatar} />
@@ -84,7 +85,10 @@ export const TableCTV: React.FC<IProps> = ({ users = [], onGetDetail }) => {
                     ))}
                   </div>
                 </td>
-                <td className="w-40 p-4">
+
+                <td className="w-24">12</td>
+
+                <td className="w-40">
                   <div className="flex items-center space-x-4">
                     <Tooltip title="Đánh giá">
                       <button onClick={handleLink(user._id)}>

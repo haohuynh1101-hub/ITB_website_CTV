@@ -1,5 +1,5 @@
 import { SearchIcon } from 'components';
-import { Button, Input, SelectControlled } from 'components/elements';
+import { Button, Input, Toggle } from 'components/elements';
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 
@@ -7,7 +7,6 @@ import { useAppDispatch, useAppSelector } from '@/hooks';
 import { getCandidatesAsync } from '@/redux/reducers/candidate';
 import { nonAccentVietnamese } from '@/utils/string';
 
-import { departments } from './components/constants';
 import { DrawerCTV } from './components/drawer-ctv';
 import { TableCTV } from './components/table';
 import { IFormCandidateValue } from './components/type';
@@ -17,29 +16,30 @@ export const ManageCTVContainer: React.FC = () => {
   const [candidateSelected, setCandidateSelected] =
     useState<IFormCandidateValue>(null);
   const [filter, setFilter] = useState({ search: '' });
-  const [departmentSelected, setDepartmentSelected] = useState('');
+  const [archived, setArchived] = useState(false);
 
   const dispatch = useAppDispatch();
   const candidateReducer = useAppSelector((state) => state.users);
   const { candidates } = candidateReducer;
 
   useEffect(() => {
-    dispatch(getCandidatesAsync());
+    dispatch(getCandidatesAsync({ isArchived: !archived ? undefined : true }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [archived]);
 
   const getCandidates = () => {
-    let { candidates } = candidateReducer;
-
+    let users = candidates.filter(
+      (candidate) => candidate.isArchived === archived
+    );
     if (filter.search) {
-      candidates = candidates.filter(
-        (candidate) =>
-          nonAccentVietnamese(candidate.fullName + candidate.email).search(
+      users = users.filter(
+        (user) =>
+          nonAccentVietnamese(user.fullName + user.email).search(
             nonAccentVietnamese(filter.search)
           ) >= 0
       );
     }
-    return candidates;
+    return users;
   };
 
   const onClose = () => {
@@ -69,6 +69,7 @@ export const ManageCTVContainer: React.FC = () => {
         ability: candidate?.ability,
         role: candidate.role,
         avatar: candidate.avatar,
+        isArchived: candidate.isArchived,
       });
       handleCreate();
     }
@@ -78,10 +79,6 @@ export const ManageCTVContainer: React.FC = () => {
     if (!visible) {
       setCandidateSelected(null);
     }
-  };
-
-  const handleDepartment = (value: string) => {
-    setDepartmentSelected(value);
   };
 
   const users = getCandidates();
@@ -94,12 +91,11 @@ export const ManageCTVContainer: React.FC = () => {
           </div>
 
           <div className="flex items-center space-x-4">
-            <div className="w-40">
-              <SelectControlled
-                options={departments}
-                value={departmentSelected}
-                onChange={handleDepartment}
-                placeholder="Ban"
+            <div>
+              <Toggle
+                title="Lưu trữ"
+                checked={archived}
+                onChange={() => setArchived((v) => !v)}
               />
             </div>
 

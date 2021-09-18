@@ -4,11 +4,12 @@ import axios from 'axios';
 import { apiRequest, getHeader, url } from '../api-config';
 import * as Types from './type';
 
-export const getCandidates = async () => {
+export const getCandidates = async (params?: Types.RequestParamsUser) => {
   const getCandidatesRequest: apiRequest = {
     url: `${url}/users`,
     method: 'GET',
     baseUrl: url,
+    params: { isArchived: params.isArchived },
     headers: getHeader(),
   };
   const response = await axios.request(getCandidatesRequest);

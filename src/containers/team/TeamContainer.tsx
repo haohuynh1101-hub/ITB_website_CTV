@@ -50,8 +50,8 @@ export const TeamContainer = () => {
   };
   return (
     <>
-      <div className="flex flex-col p-8 space-y-8">
-        <div className="flex items-center justify-between space-x-4">
+      <div className="flex flex-col space-y-8">
+        <div className="flex items-center justify-between px-8 py-4 bg-white border-b space-x-4">
           <div className="text-lg font-medium">
             <span>Danh sách nhóm</span>
           </div>
@@ -59,7 +59,7 @@ export const TeamContainer = () => {
           <div className="flex items-center space-x-4">
             <Input
               placeholder="Tìm kiếm theo tên nhóm"
-              type="default"
+              type="primary"
               bordered
               prefix={<SearchIcon />}
             />
@@ -72,7 +72,7 @@ export const TeamContainer = () => {
           </div>
         </div>
 
-        <div className="bg-white border rounded-md">
+        <div className="mx-8 bg-white border rounded-md">
           <TableTeam teams={teamReducer.teams} onUpdate={handleUpdate} />
         </div>
       </div>

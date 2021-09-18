@@ -46,7 +46,7 @@ type IProps = {
   label?: string;
   placeholder?: string;
   isShowIcon?: boolean;
-  border?: keyof typeof BORDER;
+  border?: boolean;
 };
 
 export const SelectControlled: React.FC<IProps> = ({
@@ -55,6 +55,7 @@ export const SelectControlled: React.FC<IProps> = ({
   size = 'middle',
   type = 'default',
   label,
+  border = false,
   onChange,
   placeholder,
   isShowIcon,
@@ -140,6 +141,8 @@ export const SelectControlled: React.FC<IProps> = ({
                 'select w-full cursor-pointer px-4 space-x-2',
                 SIZE_MAPS[size][KEY.select],
                 TYPE_MAPS[type],
+                BORDER[border.toString()],
+
                 {
                   'ring-1 ring-primary-400': open,
                 }
