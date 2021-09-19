@@ -33,7 +33,7 @@ const EvaluatePersonalContainer: React.FC = () => {
   const router = useRouter();
   const candidateId = router.query?.id as string;
 
-  const candidateReducer = useAppSelector((state) => state.users.candidate);
+  const candidateReducer = useAppSelector((state) => state.candidate);
   const userReducer = useAppSelector((state) => state.auth.user);
   const evaluationsReducer = useAppSelector((state) => state.evaluations);
   const listEvaluation = evaluationsReducer.evaluations || [];
@@ -180,7 +180,7 @@ const EvaluatePersonalContainer: React.FC = () => {
   return (
     <div>
       <div className="px-8 py-4  grid grid-cols-12 gap-4">
-        <Profile user={candidateReducer} />
+        <Profile user={candidateReducer.candidate} />
 
         <div className="px-8 col-span-9">
           <div className="flex items-center justify-between">

@@ -392,6 +392,7 @@ export const DrawerCTV: React.FC<IProps> = ({
                   value={value}
                   onChange={onChange}
                   type="primary"
+                  disabled={!!defaultValues}
                 />
               )}
             />
