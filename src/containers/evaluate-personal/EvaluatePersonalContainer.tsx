@@ -216,6 +216,7 @@ const EvaluatePersonalContainer: React.FC = () => {
               round={tab}
               candidateId={candidateId}
               userId={userReducer?._id}
+              hasScore
               onCreate={handleCreate}
               onUpdate={handleUpdate}
             />

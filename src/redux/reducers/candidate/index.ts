@@ -1,14 +1,10 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 import { RootState } from '@/redux/store';
-import { url } from '@/services/api/api-config';
 import {
-  createCandidate,
-  getCandidateDetail,
-  getCandidates,
+  CandidateApi,
   RequestCandidateBody,
   RequestParamsUser,
-  updateCandidate,
 } from '@/services/api/candidate';
 
 import { ICandidate } from './type';
@@ -32,7 +28,7 @@ const initialState: CandidateState = {
 export const createCandidateAsync = createAsyncThunk(
   'candidate/create',
   async (payload: { data: RequestCandidateBody }) => {
-    const result = await createCandidate(payload.data);
+    const result = await CandidateApi.createCandidate(payload.data);
     return result;
   }
 );
@@ -40,7 +36,7 @@ export const createCandidateAsync = createAsyncThunk(
 export const getCandidatesAsync = createAsyncThunk(
   'candidate/get',
   async (params?: RequestParamsUser) => {
-    const result = await getCandidates(params);
+    const result = await CandidateApi.getCandidates(params);
     return result;
   }
 );
@@ -48,7 +44,7 @@ export const getCandidatesAsync = createAsyncThunk(
 export const getCandidateDetailAsync = createAsyncThunk(
   'candidate/get/id',
   async (userId: string) => {
-    const result = await getCandidateDetail(userId);
+    const result = await CandidateApi.getCandidateDetail(userId);
     return result;
   }
 );
@@ -56,7 +52,7 @@ export const getCandidateDetailAsync = createAsyncThunk(
 export const updateCandidatesAsync = createAsyncThunk(
   'candidate/update',
   async (payload: { candidateId: string; data: RequestCandidateBody }) => {
-    const result = await updateCandidate(payload.candidateId, {
+    const result = await CandidateApi.updateCandidate(payload.candidateId, {
       ...payload.data,
     });
     return result;
@@ -90,10 +86,8 @@ export const candidateSlice = createSlice({
       })
       .addCase(getCandidatesAsync.fulfilled, (state, action) => {
         state.pending = false;
-        const users = action.payload;
 
-        state.candidates = users.filter((user) => user.role === 'CANDIDATE');
-        state.supporters = users.filter((user) => user.role === 'SUPPORTER');
+        state.candidates = action.payload;
       })
       .addCase(getCandidatesAsync.rejected, (state) => {
         state.candidates = [];
@@ -133,5 +127,5 @@ export const candidateSlice = createSlice({
   },
 });
 
-export const candidateStore = (state: RootState) => state.users;
+export const candidateStore = (state: RootState) => state.candidate;
 export default candidateSlice.reducer;

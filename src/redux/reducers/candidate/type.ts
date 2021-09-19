@@ -16,4 +16,6 @@ export interface ICandidate {
   linkFB?: string;
   major: string;
   isArchived?: boolean;
+  scoreAvg_1?: string;
+  scoreAvg_2?: string;
 }

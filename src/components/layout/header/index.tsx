@@ -71,7 +71,7 @@ export const Header: React.FC<IProps> = ({ user, handleToggleSidebar }) => {
         </div>
 
         <div className="flex items-center space-x-4">
-          <Tooltip title="Tạo nhanh">
+          {/* <Tooltip title="Tạo nhanh">
             <DropDown menus={MENUSQUICKCREATE} placement="right">
               <div className="flex items-center justify-center w-8 h-8 bg-gray-100 rounded-full shadow-inner">
                 <span className="text-xs font-medium text-gray-400">
@@ -79,7 +79,7 @@ export const Header: React.FC<IProps> = ({ user, handleToggleSidebar }) => {
                 </span>
               </div>
             </DropDown>
-          </Tooltip>
+          </Tooltip> */}
 
           <DropDown menus={MENUS} onClick={handleCLick} placement="right">
             <div className="flex items-center font-medium space-x-2">

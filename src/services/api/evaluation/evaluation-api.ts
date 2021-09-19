@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import axios from 'axios';
 
 import { apiRequest, getHeader, url } from '../api-config';

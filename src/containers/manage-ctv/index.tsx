@@ -19,11 +19,16 @@ export const ManageCTVContainer: React.FC = () => {
   const [archived, setArchived] = useState(false);
 
   const dispatch = useAppDispatch();
-  const candidateReducer = useAppSelector((state) => state.users);
+  const candidateReducer = useAppSelector((state) => state.candidate);
   const { candidates } = candidateReducer;
 
   useEffect(() => {
-    dispatch(getCandidatesAsync({ isArchived: !archived ? undefined : true }));
+    dispatch(
+      getCandidatesAsync({
+        isArchived: !archived ? undefined : true,
+        role: 'CANDIDATE',
+      })
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [archived]);
 

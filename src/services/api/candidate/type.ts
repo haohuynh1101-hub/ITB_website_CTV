@@ -14,6 +14,8 @@ export type RequestCandidateBody = {
   ability?: string[];
   linkFB?: string;
   isArchived?: boolean;
+  scoreAvg_1?: string;
+  scoreAvg_2?: string;
 };
 
 export type RequestGetUsersResult = {
@@ -22,4 +24,5 @@ export type RequestGetUsersResult = {
 
 export type RequestParamsUser = {
   isArchived?: boolean;
+  role?: string;
 };

@@ -20,6 +20,7 @@ import {
   getCandidatesAsync,
   updateTeamAsync,
 } from '@/redux/reducers';
+import { getMembersAsync } from '@/redux/reducers/member';
 import { RequestTeamBody } from '@/services/api';
 
 import { IFormValues } from '../type';
@@ -60,9 +61,8 @@ const _DrawerTeam: React.FC<IProps> = ({
   const isUpdate = defaultValues?._id;
 
   const dispatch = useAppDispatch();
-  const userReducer = useAppSelector((state) => state.users);
-
-  const { supporters, candidates } = userReducer;
+  const candidateReducer = useAppSelector((state) => state.candidate);
+  const memberReducer = useAppSelector((state) => state.member);
 
   const {
     handleSubmit,
@@ -76,8 +76,11 @@ const _DrawerTeam: React.FC<IProps> = ({
   });
 
   useEffect(() => {
-    if (visible && candidates.length < 1) {
-      dispatch(getCandidatesAsync());
+    if (visible && memberReducer.members.length < 1) {
+      Promise.all([
+        dispatch(getCandidatesAsync({ role: "CANDIDATE", isArchived: false })),
+        dispatch(getMembersAsync({ role: "SUPPORTER" }))
+      ])
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -101,7 +104,7 @@ const _DrawerTeam: React.FC<IProps> = ({
     }
   }, [defaultValues, visible, reset]);
 
-  const candidatesOptions = candidates.map((user) => ({
+  const candidatesOptions = candidateReducer.candidates.map((user) => ({
     icon: user.avatar,
     name: user.fullName,
     value: user._id,
@@ -111,7 +114,7 @@ const _DrawerTeam: React.FC<IProps> = ({
     return convertSimpleToComplexOptions(candidatesOptions, true);
   }, [candidatesOptions]);
 
-  const supportersOptions = supporters.map((user) => ({
+  const supportersOptions = memberReducer.members.map((user) => ({
     icon: user.avatar,
     name: user.fullName,
     value: user._id,

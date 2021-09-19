@@ -17,6 +17,7 @@ export type IFormValue = {
 };
 
 type IProps = {
+  hasScore?: boolean
   placeholder?: string;
   defaultValue?: IFormValue;
   round: string;
@@ -36,12 +37,12 @@ const schema = yup.object().shape({
 });
 
 export const EvaluateEditor: React.FC<IProps> = ({
-  placeholder,
   defaultValue,
   round,
   candidateId,
   teamId,
   userId,
+  hasScore = false,
   //
   onCreate,
   onUpdate,
@@ -118,18 +119,33 @@ export const EvaluateEditor: React.FC<IProps> = ({
     <React.Fragment>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex items-center text-base font-semibold space-x-4 space-y-2">
-          <SelectControlled border size="small" options={TYPE_EVALUATION} value={type} onChange={handleChangeType} />
-
+          {hasScore &&
+            <SelectControlled border size="small" options={TYPE_EVALUATION} value={type} onChange={handleChangeType} />
+          }
           <Controller
             control={control}
             name="content"
             render={({ field: { value, onChange } }) => (
-              <textarea
-                className="w-full h-20 px-4 py-2 border focus:outline-none max-h-96"
-                value={value}
-                onChange={onChange}
-                placeholder={placeholder}
-              />
+
+              <>
+                <input placeholder={type === "SCORE" ? "Chấm điểm ..." : "Nhận xét ..."} value={value} onChange={onChange} className="w-full h-20 px-4 border focus:outline-none" type={type === "SCORE" ? "number" : "text"} />
+
+                {/* {
+                  type === "SCORE" ?
+                    (
+                      <input placeholder="Chấm điểm ..." value={value} onChange={onChange} className="w-full h-20 px-4 border focus:outline-none" type="number" />
+                    )
+                    :
+                    (
+                      <textarea
+                        className="w-full h-20 px-4 py-2 border focus:outline-none max-h-96"
+                        value={value}
+                        onChange={onChange}
+                        placeholder={placeholder}
+                      />
+                    )
+                } */}
+              </>
             )}
           />
 
