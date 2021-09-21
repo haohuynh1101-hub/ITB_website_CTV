@@ -17,7 +17,7 @@ export type IFormValue = {
 };
 
 type IProps = {
-  hasScore?: boolean
+  hasScore?: boolean;
   placeholder?: string;
   defaultValue?: IFormValue;
   round: string;
@@ -47,8 +47,7 @@ export const EvaluateEditor: React.FC<IProps> = ({
   onCreate,
   onUpdate,
 }) => {
-
-  const [type, setType] = useState("EVALUATION")
+  const [type, setType] = useState('EVALUATION');
   const isUpdate = defaultValue?._id;
   const { control, handleSubmit, reset } = useForm<IFormValue>({
     resolver: yupResolver(schema),
@@ -73,8 +72,8 @@ export const EvaluateEditor: React.FC<IProps> = ({
   }, [defaultValue]);
 
   const onSubmit = async (data: IFormValue) => {
-    let body: RequestEvaluationBody
-    if (type === "SCORE") {
+    let body: RequestEvaluationBody;
+    if (type === 'SCORE') {
       body = {
         score: data.content,
         content: data.content,
@@ -82,7 +81,7 @@ export const EvaluateEditor: React.FC<IProps> = ({
         teamId: teamId || '',
         userId: userId,
         round: round,
-      }
+      };
     } else {
       body = {
         content: data.content,
@@ -90,7 +89,7 @@ export const EvaluateEditor: React.FC<IProps> = ({
         teamId: teamId || '',
         userId: userId,
         round: round,
-      }
+      };
     }
     try {
       if (isUpdate) {
@@ -113,22 +112,37 @@ export const EvaluateEditor: React.FC<IProps> = ({
   };
 
   const handleChangeType = (value: string) => {
-    setType(value)
-  }
+    setType(value);
+  };
   return (
     <React.Fragment>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex items-center text-base font-semibold space-x-4 space-y-2">
-          {hasScore &&
-            <SelectControlled border size="small" options={TYPE_EVALUATION} value={type} onChange={handleChangeType} />
-          }
+          {hasScore && (
+            <SelectControlled
+              border
+              size="small"
+              options={TYPE_EVALUATION}
+              value={type}
+              onChange={handleChangeType}
+            />
+          )}
           <Controller
             control={control}
             name="content"
             render={({ field: { value, onChange } }) => (
-
               <>
-                <input placeholder={type === "SCORE" ? "Chú ý: Điểm chấm nên lớn hơn 0" : "Nhận xét ..."} value={value} onChange={onChange} className="w-full h-20 px-4 border focus:outline-none" type={type === "SCORE" ? "number" : "text"} />
+                <input
+                  placeholder={
+                    type === 'SCORE'
+                      ? 'Chú ý: Điểm chấm nên lớn hơn 0'
+                      : 'Nhận xét ...'
+                  }
+                  value={value}
+                  onChange={onChange}
+                  className="w-full h-20 px-4 border focus:outline-none"
+                  type={type === 'SCORE' ? 'number' : 'text'}
+                />
 
                 {/* {
                   type === "SCORE" ?
@@ -160,6 +174,4 @@ export const EvaluateEditor: React.FC<IProps> = ({
       </form>
     </React.Fragment>
   );
-
-
 };

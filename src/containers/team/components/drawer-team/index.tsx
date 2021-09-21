@@ -78,9 +78,9 @@ const _DrawerTeam: React.FC<IProps> = ({
   useEffect(() => {
     if (visible && memberReducer.members.length < 1) {
       Promise.all([
-        dispatch(getCandidatesAsync({ role: "CANDIDATE", isArchived: false })),
-        dispatch(getMembersAsync({ role: "SUPPORTER" }))
-      ])
+        dispatch(getCandidatesAsync({ role: 'CANDIDATE', isArchived: false })),
+        dispatch(getMembersAsync({ role: 'SUPPORTER' })),
+      ]);
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
