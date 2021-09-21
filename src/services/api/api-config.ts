@@ -9,8 +9,8 @@ export interface apiRequest {
   headers?: any;
   params?: any;
 }
-// export const url = 'http://103.116.104.148:4002';
-export const url = 'http://localhost:4002';
+export const url = 'http://103.116.104.148:4002';
+// export const url = 'http://localhost:4002';
 
 export const getHeader = () => {
   const accessToken: string = localStorage.getItem(APP_CONSTANTS.AUTH) || '';
