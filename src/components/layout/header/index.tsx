@@ -2,12 +2,13 @@ import classNames from 'classnames';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 
-import { Avatar, BackIcon, DropDown, PlusIcon, Tooltip } from '@/components';
+import { Avatar, BackIcon, DropDown } from '@/components';
 import { ICandidate } from '@/redux/reducers/candidate/type';
 
 import { ChevronDownIcon, MenuToggleIcon } from '../../icons';
 type IProps = {
   user: ICandidate;
+  titleApp?: string;
   handleToggleSidebar: () => void;
 };
 
@@ -29,18 +30,11 @@ const MENUS = [
   },
 ];
 
-const MENUSQUICKCREATE = [
-  {
-    value: 'team',
-    name: 'Ghép nhóm',
-  },
-  {
-    value: 'candidate',
-    name: 'Tạo CTV',
-  },
-];
-
-export const Header: React.FC<IProps> = ({ user, handleToggleSidebar }) => {
+export const Header: React.FC<IProps> = ({
+  user,
+  titleApp = '',
+  handleToggleSidebar,
+}) => {
   const router = useRouter();
   const handleCLick = (key: string) => {
     if (key === 'logout') {
@@ -50,7 +44,7 @@ export const Header: React.FC<IProps> = ({ user, handleToggleSidebar }) => {
   };
   return (
     <>
-      <header className="fixed z-20 flex items-center justify-between w-screen px-4 bg-white border-b h-header top-notice md:pr-8">
+      <header className="fixed z-20 flex items-center  w-screen px-4 bg-white border-b h-header top-notice md:pr-8">
         <div className="flex items-center space-x-4">
           <div className="flex md:hidden">
             <button
@@ -70,17 +64,11 @@ export const Header: React.FC<IProps> = ({ user, handleToggleSidebar }) => {
           </div>
         </div>
 
-        <div className="flex items-center space-x-4">
-          {/* <Tooltip title="Tạo nhanh">
-            <DropDown menus={MENUSQUICKCREATE} placement="right">
-              <div className="flex items-center justify-center w-8 h-8 bg-gray-100 rounded-full shadow-inner">
-                <span className="text-xs font-medium text-gray-400">
-                  <PlusIcon />
-                </span>
-              </div>
-            </DropDown>
-          </Tooltip> */}
+        <div className="flex-1 pl-2  xl:pl-6">
+          <span className="text-base font-medium">{titleApp}</span>
+        </div>
 
+        <div className="flex items-center justify-end space-x-4">
           <DropDown menus={MENUS} onClick={handleCLick} placement="right">
             <div className="flex items-center font-medium space-x-2">
               <div className="flex items-center space-x-2">

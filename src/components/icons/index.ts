@@ -11,6 +11,7 @@ export * from './EyeIcon';
 export * from './FacebookIcon';
 export * from './HomeIcon';
 export * from './icon-ctv';
+export * from './icon-internal';
 export * from './MenuIcon';
 export * from './MenuToggleIcon';
 export * from './PeopleTeamIcon';

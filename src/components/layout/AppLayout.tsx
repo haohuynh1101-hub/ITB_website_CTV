@@ -14,12 +14,14 @@ type IProps = {
   children: JSX.Element;
   menus: TMenuItem[];
   pageKey: string;
+  titleApp?: string;
 };
 export const AppLayout: React.FC<IProps> = ({
   title,
   children,
   menus,
   pageKey,
+  titleApp = '',
 }) => {
   const [isMobile, setIsMobile] = useState(false);
   const user = useAppSelector((state) => state.auth.user);
@@ -36,7 +38,11 @@ export const AppLayout: React.FC<IProps> = ({
         <title>{title}</title>
       </Head>
 
-      <Header handleToggleSidebar={handleToggleSidebar} user={user} />
+      <Header
+        handleToggleSidebar={handleToggleSidebar}
+        user={user}
+        titleApp={titleApp}
+      />
       <div style={{ height: headerHeight }}></div>
       {/* {isMobileSize && (
         <>

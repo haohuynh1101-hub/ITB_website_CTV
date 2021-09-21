@@ -5,7 +5,7 @@ export const menusHome = [
     key: 'ManageHuman',
     name: 'Quản lý nội bộ',
     icon: <HomeIcon size={40} />,
-    href: '/manage-human',
+    href: '/internal/human',
   },
   {
     key: 'ManageCTV',
