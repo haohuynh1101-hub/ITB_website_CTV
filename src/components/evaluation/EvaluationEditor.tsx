@@ -132,8 +132,6 @@ export const EvaluateEditor: React.FC<IProps> = ({
             name="content"
             render={({ field: { value, onChange } }) => (
               <>
-
-
                 {type === 'SCORE' ? (
                   <input
                     placeholder="Lưu ý: Điểm nên lớn hơn 0"
