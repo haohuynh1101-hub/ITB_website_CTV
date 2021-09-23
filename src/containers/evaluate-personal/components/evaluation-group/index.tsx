@@ -8,7 +8,7 @@ import { Collapse, FormItem } from '@/components/elements';
 import { IEvaluationGroup } from '@/redux/reducers/evaluation/types';
 
 type IProps = {
-  userId?: string
+  userId?: string;
   evaluationsGroup: IEvaluationGroup;
   onGetDetail: (evaluationId: string) => void;
   onDelete: (evaluationId: string) => void;

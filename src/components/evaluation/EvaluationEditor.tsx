@@ -144,21 +144,22 @@ export const EvaluateEditor: React.FC<IProps> = ({
                   type={type === 'SCORE' ? 'number' : 'text'}
                 /> */}
 
-                {
-                  type === "SCORE" ?
-                    (
-                      <input placeholder="Lưu ý: Điểm nên lớn hơn 0" value={value} onChange={onChange} className="w-full h-20 px-4 border focus:outline-none" type="number" />
-                    )
-                    :
-                    (
-                      <textarea
-                        className="w-full h-20 px-4 py-2 border focus:outline-none max-h-96"
-                        value={value}
-                        onChange={onChange}
-                        placeholder="Nhận xét ..."
-                      />
-                    )
-                }
+                {type === 'SCORE' ? (
+                  <input
+                    placeholder="Lưu ý: Điểm nên lớn hơn 0"
+                    value={value}
+                    onChange={onChange}
+                    className="w-full h-20 px-4 border focus:outline-none"
+                    type="number"
+                  />
+                ) : (
+                  <textarea
+                    className="w-full h-20 px-4 py-2 border focus:outline-none max-h-96"
+                    value={value}
+                    onChange={onChange}
+                    placeholder="Nhận xét ..."
+                  />
+                )}
               </>
             )}
           />
