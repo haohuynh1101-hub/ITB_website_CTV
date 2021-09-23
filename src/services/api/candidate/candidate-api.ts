@@ -4,27 +4,27 @@ import axios from 'axios';
 import { apiRequest, getHeader, url } from '../api-config';
 import * as Types from './type';
 
-export const CandidateApi = {
-  async getCandidates(params?: Types.RequestParamsUser) {
-    const getCandidatesRequest: apiRequest = {
+export const UsersApi = {
+  async getUsers(params?: Types.RequestParamsUser) {
+    const getUsersRequest: apiRequest = {
       url: `${url}/users`,
       method: 'GET',
       baseUrl: url,
       params: { isArchived: params.isArchived, role: params.role },
       headers: getHeader(),
     };
-    const response = await axios.request(getCandidatesRequest);
+    const response = await axios.request(getUsersRequest);
     return response.data;
   },
 
-  async getCandidateDetail(userId: string) {
-    const getCandidateDetailRequest: apiRequest = {
-      url: `${url}/users/${userId}`,
+  async getUserDetail(id: string) {
+    const getUserDetailRequest: apiRequest = {
+      url: `${url}/users/${id}`,
       method: 'GET',
       baseUrl: url,
       headers: getHeader(),
     };
-    const response = await axios.request(getCandidateDetailRequest);
+    const response = await axios.request(getUserDetailRequest);
     return response.data;
   },
 
@@ -40,16 +40,16 @@ export const CandidateApi = {
     return response.data;
   },
 
-  async updateCandidate(candidateId: string, body: Types.RequestCandidateBody) {
-    const createCandidateRequest: apiRequest = {
-      url: `${url}/users/${candidateId}`,
+  async updateUser(id: string, body: Types.RequestCandidateBody) {
+    const updateUserRequest: apiRequest = {
+      url: `${url}/users/${id}`,
       method: 'PATCH',
       baseUrl: url,
       data: body,
       headers: getHeader(),
     };
 
-    const response = await axios.request(createCandidateRequest);
+    const response = await axios.request(updateUserRequest);
     return response.data;
   },
 };

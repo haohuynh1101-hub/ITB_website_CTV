@@ -142,7 +142,9 @@ const EvaluatePersonalContainer: React.FC = () => {
                 {listEvaluation.map((evaluation, index) => (
                   <FormItem key={index}>
                     <Evaluate
+                      userId={userReducer?._id}
                       evaluation={evaluation}
+                      //
                       onGetDetail={handleGetDetail}
                       onDelete={handleDelete}
                     />
@@ -156,7 +158,9 @@ const EvaluatePersonalContainer: React.FC = () => {
                 {toArray(data).map((evaluationGroup, index) => (
                   <EvaluationGroup
                     key={index}
+                    userId={userReducer?._id}
                     evaluationsGroup={evaluationGroup}
+                    //
                     onDelete={handleDelete}
                     onGetDetail={handleGetDetail}
                   />

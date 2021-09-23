@@ -8,12 +8,14 @@ import { Collapse, FormItem } from '@/components/elements';
 import { IEvaluationGroup } from '@/redux/reducers/evaluation/types';
 
 type IProps = {
+  userId?: string
   evaluationsGroup: IEvaluationGroup;
   onGetDetail: (evaluationId: string) => void;
   onDelete: (evaluationId: string) => void;
 };
 export const EvaluationGroup: React.FC<IProps> = ({
   evaluationsGroup,
+  userId,
   onDelete,
   onGetDetail,
 }) => {
@@ -52,6 +54,7 @@ export const EvaluationGroup: React.FC<IProps> = ({
             {evaluationsGroup.evaluations.map((e, index) => (
               <FormItem key={index}>
                 <Evaluate
+                  userId={userId}
                   evaluation={e}
                   onGetDetail={onGetDetail}
                   onDelete={onDelete}

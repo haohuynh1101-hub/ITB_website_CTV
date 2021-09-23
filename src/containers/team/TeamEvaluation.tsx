@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { EVALUATE_INTERVAL_TABS } from 'containers/team/constant';
+import { EVALUATE_INTERVAL_TABS_TEAM } from 'containers/team/constant';
 import { toArray } from 'lodash';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useMemo, useState } from 'react';
@@ -232,7 +232,7 @@ const TeamEvaluationContainer = () => {
           <div className="flex items-center justify-between">
             <FormItem>
               <Tabs
-                tabs={EVALUATE_INTERVAL_TABS}
+                tabs={EVALUATE_INTERVAL_TABS_TEAM}
                 onChange={handleTabChange}
                 activeKey={tab}
               />

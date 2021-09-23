@@ -1,5 +1,4 @@
-/* eslint-disable prettier/prettier */
-
+import classNames from 'classnames';
 import dayjs from 'dayjs';
 import dayjsCalendar from 'dayjs/plugin/calendar';
 
@@ -11,15 +10,19 @@ import { menus } from './constants';
 dayjs.extend(dayjsCalendar);
 
 type IProps = {
+  userId?: string;
   evaluation: IEvaluation;
   onGetDetail: (evaluationId: string) => void;
   onDelete: (evaluationId: string) => void;
 };
 export const Evaluate: React.FC<IProps> = ({
   evaluation,
+  userId,
   onGetDetail,
   onDelete,
 }) => {
+  const des = evaluation?.content?.split('\n').join('<br/>');
+
   const handleClick = (key?: string) => {
     if (key === 'edit') {
       if (onGetDetail) {
@@ -34,7 +37,7 @@ export const Evaluate: React.FC<IProps> = ({
   };
   return (
     <div className="flex items-center space-x-2">
-      <div className="flex items-center space-x-4">
+      <div className="flex space-x-4">
         <Avatar
           src={evaluation?.user.avatar}
           fullName={evaluation?.user.fullName}
@@ -44,14 +47,23 @@ export const Evaluate: React.FC<IProps> = ({
           <div className="flex items-center space-x-2">
             {evaluation?.icon && <span>{evaluation?.icon}</span>}
 
-            <span>{evaluation?.content}</span>
+            <div
+              dangerouslySetInnerHTML={{
+                __html: des || '...',
+              }}
+            ></div>
           </div>
         </div>
       </div>
 
       <div>
         <DropDown placement="left" menus={menus} onClick={handleClick}>
-          <span className="p-2 rounded-full bg-gray-50 hover:bg-gray-100">
+          <span
+            className={classNames(
+              'p-2 rounded-full bg-gray-50 hover:bg-gray-100',
+              { hidden: userId !== evaluation?.user?._id }
+            )}
+          >
             <MenuIcon />
           </span>
         </DropDown>

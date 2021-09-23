@@ -17,6 +17,17 @@ export const EVALUATE_INTERVAL_TABS: ITab[] = [
   },
 ];
 
+export const EVALUATE_INTERVAL_TABS_TEAM: ITab[] = [
+  {
+    key: 'ROUND_2',
+    name: 'Vòng 2',
+  },
+  {
+    key: 'ROUND_3',
+    name: 'Vòng 3',
+  },
+];
+
 export const dataDemo = [
   {
     key: '1',

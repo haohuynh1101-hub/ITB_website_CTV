@@ -132,7 +132,7 @@ export const EvaluateEditor: React.FC<IProps> = ({
             name="content"
             render={({ field: { value, onChange } }) => (
               <>
-                <input
+                {/* <input
                   placeholder={
                     type === 'SCORE'
                       ? 'Chú ý: Điểm chấm nên lớn hơn 0'
@@ -142,12 +142,12 @@ export const EvaluateEditor: React.FC<IProps> = ({
                   onChange={onChange}
                   className="w-full h-20 px-4 border focus:outline-none"
                   type={type === 'SCORE' ? 'number' : 'text'}
-                />
+                /> */}
 
-                {/* {
+                {
                   type === "SCORE" ?
                     (
-                      <input placeholder="Chấm điểm ..." value={value} onChange={onChange} className="w-full h-20 px-4 border focus:outline-none" type="number" />
+                      <input placeholder="Lưu ý: Điểm nên lớn hơn 0" value={value} onChange={onChange} className="w-full h-20 px-4 border focus:outline-none" type="number" />
                     )
                     :
                     (
@@ -155,10 +155,10 @@ export const EvaluateEditor: React.FC<IProps> = ({
                         className="w-full h-20 px-4 py-2 border focus:outline-none max-h-96"
                         value={value}
                         onChange={onChange}
-                        placeholder={placeholder}
+                        placeholder="Nhận xét ..."
                       />
                     )
-                } */}
+                }
               </>
             )}
           />

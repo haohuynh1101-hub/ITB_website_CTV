@@ -2,9 +2,9 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 import { RootState } from '@/redux/store';
 import {
-  CandidateApi,
   RequestCandidateBody,
   RequestParamsUser,
+  UsersApi,
 } from '@/services/api/candidate';
 
 import { ICandidate } from '../candidate/type';
@@ -26,7 +26,7 @@ const initialState: MemberState = {
 export const createMemberAsync = createAsyncThunk(
   'member/create',
   async (payload: { data: RequestCandidateBody }) => {
-    const result = await CandidateApi.createCandidate(payload.data);
+    const result = await UsersApi.createCandidate(payload.data);
     return result;
   }
 );
@@ -34,7 +34,7 @@ export const createMemberAsync = createAsyncThunk(
 export const getMembersAsync = createAsyncThunk(
   'member/get',
   async (params?: RequestParamsUser) => {
-    const result = await CandidateApi.getCandidates(params);
+    const result = await UsersApi.getUsers(params);
     return result;
   }
 );
@@ -42,7 +42,7 @@ export const getMembersAsync = createAsyncThunk(
 export const getMemberDetailAsync = createAsyncThunk(
   'member/get/id',
   async (userId: string) => {
-    const result = await CandidateApi.getCandidateDetail(userId);
+    const result = await UsersApi.getUserDetail(userId);
     return result;
   }
 );
@@ -50,7 +50,7 @@ export const getMemberDetailAsync = createAsyncThunk(
 export const updateMemberAsync = createAsyncThunk(
   'member/update',
   async (payload: { memberId: string; data: RequestCandidateBody }) => {
-    const result = await CandidateApi.updateCandidate(payload.memberId, {
+    const result = await UsersApi.updateUser(payload.memberId, {
       ...payload.data,
     });
     return result;
