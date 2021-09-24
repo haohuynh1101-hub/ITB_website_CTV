@@ -6,7 +6,7 @@ import { withAuthentication } from '@/hoc/withAuthentication';
 const ManageCTVPage = () => {
   return (
     <>
-      <AppLayout menus={menusCTV} title="Home" pageKey={'ManageCTV'}>
+      <AppLayout menus={menusCTV} title="Manage | CTV" pageKey={'ManageCTV'}>
         <ManageCTVContainer />
       </AppLayout>
     </>

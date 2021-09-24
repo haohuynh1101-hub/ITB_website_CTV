@@ -1,11 +1,12 @@
 import classNames from 'classnames';
 import useWindowSize from 'hooks/useWindowSize';
-import Head from 'next/head';
+import { title } from 'process';
 import { useState } from 'react';
 
 import { useAppSelector } from '@/hooks';
 import { getCSSVar } from '@/utils/cssVar';
 
+import { Head } from './head';
 import { Header } from './header';
 import { SidebarDesktop, SidebarMobile } from './sidebar';
 import { TMenuItem } from './sidebar/MenuItem';
@@ -34,9 +35,7 @@ export const AppLayout: React.FC<IProps> = ({
 
   return (
     <>
-      <Head>
-        <title>{title}</title>
-      </Head>
+      <Head pageTitle={title} />
 
       <Header
         handleToggleSidebar={handleToggleSidebar}

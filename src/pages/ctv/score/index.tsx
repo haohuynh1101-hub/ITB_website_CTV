@@ -6,7 +6,7 @@ import { withAuthentication } from '@/hoc/withAuthentication';
 const ScoreCTVPage = () => {
   return (
     <>
-      <AppLayout menus={menusCTV} title="Home" pageKey={'Score'}>
+      <AppLayout menus={menusCTV} title="Score" pageKey={'Score'}>
         {/* <ScoreContainer /> */}
         <ComingSoon imageSrc="/coming.jpg" />
       </AppLayout>

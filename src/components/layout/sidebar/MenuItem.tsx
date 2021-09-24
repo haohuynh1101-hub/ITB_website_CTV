@@ -21,8 +21,8 @@ export const MenuItem: React.FC<TMenuItem> = ({
           className={classNames(
             'group flex items-center w-full transition duration-300 ease-in-out px-4 py-4 font-medium',
             {
-              'bg-primary-400 text-white': isActive,
-              'hover:bg-primary-400': !isActive,
+              'bg-primary-50 text-primary-400': isActive,
+              'hover:bg-primary-50': !isActive,
               'px-8': !icon,
             }
           )}
@@ -33,8 +33,8 @@ export const MenuItem: React.FC<TMenuItem> = ({
                 className={classNames(
                   ' w-8 flex justify-center transition-all duration-300',
                   {
-                    'text-white': isActive,
-                    'group-hover:text-white': !isActive,
+                    'text-primary-400': isActive,
+                    'group-hover:text-primary-400': !isActive,
                   }
                 )}
               >
@@ -45,7 +45,7 @@ export const MenuItem: React.FC<TMenuItem> = ({
 
           <span
             className={classNames(
-              'flex-1 w-full transition-all duration-300 overflow-hidden whitespace-nowrap group-hover:text-white'
+              'flex-1 w-full transition-all duration-300 overflow-hidden whitespace-nowrap group-hover:text-primary-400'
             )}
           >
             {name}

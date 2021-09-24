@@ -1,5 +1,7 @@
 export * from './menus-ctv';
 
+export const APP_NAME = 'quanlyclb - UEL';
+
 export const APP_CONSTANTS = {
   AUTH: `AUTH`,
 };
