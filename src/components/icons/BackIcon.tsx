@@ -18,6 +18,5 @@ export const BackIcon = () => {
         fill="currentColor"
       />
     </svg>
-
   );
 };
